@@ -1,0 +1,40 @@
+library(gh)
+
+# Resources
+
+  - [Search API endpoint](https://docs.github.com/en/rest/search)
+  - [Building a search query string](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)
+  - [Searching a user](https://docs.github.com/en/rest/search#search-users)
+    - [Endpoint](https://docs.github.com/en/rest/search#search-users)
+
+
+# repository issue search
+
+```r
+
+res <- gh(
+  "/search/issues",
+  q = "involves:miles.mcbain type:issue in:title,body repo:tidyverse/dplyr" 
+)
+```
+
+# find a user
+
+```r
+
+res <- gh(
+  "/search/users",
+  q = "miles.mcbain in:email" 
+)
+
+```
+
+## get user's email
+
+```r
+library(gert)
+library(dplyr)
+gert::git_config() |>
+  filter(name == "user.email") |>
+  pull(value)
+```  
