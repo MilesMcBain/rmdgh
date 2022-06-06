@@ -9,9 +9,13 @@ resolve_package_repo <- function(package) {
   }
 }
 
+is_qualified_packagename <- function(package) {
+  grepl("^[A-Za-z0-9-]+/[A-Za-z.0-9]+$", package)
+}
+
 assert_github_repo_exists <- function(repo) {
   tryCatch(
-    gh(
+    gh::gh(
       glue::glue("/repos/{repo}")
     ),
     error = function(e) {
@@ -46,7 +50,6 @@ is_github_url <- function(url) {
 
 
 get_repo_from_url <- function(url) {
-  url <- "https://github.com/miles-mcbain/datapasta"
   regexpr(
     "github.com/[A-Za-z0-9-]+/[A-Za-z.0-9]+",
     url,
@@ -66,7 +69,7 @@ get_repo_from_url <- function(url) {
 
 resolve_from_package_data <- function(package_data) {
 
-  if (package_data$RemoteType == "github") {
+  if (!is.null(package_data$RemoteType) && package_data$RemoteType == "github") {
     repo <- glue::glue("{package_data$RemoteUsername}/{package_data$RemoteRepo}")
   }
   else if (is_github_url(package_data$BugReports)) {
@@ -99,3 +102,6 @@ resolve_package_from_CRAN <- function(package) {
 
   resolve_from_package_data(package_data)
 }
+
+
+
