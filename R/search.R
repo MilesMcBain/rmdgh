@@ -33,12 +33,13 @@ ISSUE_SEARCH_QUERY <-
 issues <- function(package, search_query = "", is_open = TRUE) {
   resolved_package <- resolve_package_repo(package)
 
-  gh::gh(
+  result <- gh::gh(
     "/search/issues",
     q = glue::glue(
       ISSUE_SEARCH_QUERY
     )
   )
+
 }
 
 my_issues <- function(package, search_query = "", author = get_gh_user(), is_open = TRUE) {
@@ -54,7 +55,7 @@ my_issues <- function(package, search_query = "", author = get_gh_user(), is_ope
     )
   )
 
-  result
+  
 }
 
 issues_with_me <- function(package, search_query = "", author = get_gh_user(), is_open = TRUE) {

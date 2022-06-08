@@ -2,26 +2,14 @@
 
 ```{r}
 
-issues <- my_issues("milesmcbain/testrpkg")
+issues <- my_issues("milesmcbain/datapasta")
 
-test_issue <- issues$items[[2]]
+issue_json <- issues$items[[2]]
 
-rmd <- parsermd::parse_rmd(test_issue$body)
+issue_content <- issues$items[[2]]$body
 
-rmd[[2]]
-
-updated_rmd <- lapply(rmd, function(node) {
-  if (is(node, "rmd_heading")) {
-    node$level <- min(node$level + 1, 6)
-  } else {
-    node$name
-  }
-  node
-}) 
-
-class(updated_rmd) <- class(rmd)
-
-parsermd::as_document(updated_rmd)
+text <- render_issue_summaries(issues$items)
+cat(text)
 
 
 ```
