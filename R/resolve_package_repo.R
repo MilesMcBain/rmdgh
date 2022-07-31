@@ -115,3 +115,7 @@ resolve_package_from_CRAN <- function(package) {
 cran_url <- function(package) {
   glue::glue("https://cran.r-project.org/package={package}")
 }
+
+package_name <- function(resolved_package) {
+  gsub("^[A-Za-z0-9-]+/", "", resolved_package)
+}

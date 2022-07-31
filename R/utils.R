@@ -21,3 +21,4 @@ time_diff <- function(timestamp) {
     lubridate::now() - lubridate::as_datetime(timestamp)
   )
 }
+

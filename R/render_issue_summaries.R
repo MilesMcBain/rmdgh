@@ -1,3 +1,4 @@
+
 render_issue_summaries <- function(issue_items) {
   vapply(
     issue_items,
@@ -48,8 +49,9 @@ issue_meta_summary <- function(author, created_at, n_comments, n_reactions) {
 }
 
 issue_body_summary <- function(issue_body) {
+  if (is.null(issue_body)) return(NULL) 
   body_lines <- strsplit(issue_body, "\r\n")[[1]]
-  body_lines_head <- head(body_lines, 3)
+  body_lines_head <- head(body_lines, 8)
   paste0(strrep(" ", 4), body_lines_head) # makes it quoted
 }
 
