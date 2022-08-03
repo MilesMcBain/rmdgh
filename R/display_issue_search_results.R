@@ -1,13 +1,17 @@
 display_issue_search_results <- function(result) {
-  stop("Not implemented yet")
-  if (!rstudioapi::isAvailable()) stop("not handled yet!")
 
-  
-  browser()
+  document_name <- snakecase::to_snake_case(
+    paste(
+      result$query_description,
+      result$query$package,
+      collapse = " "
+    )
+  )
+
   create_temp_document(
-    package_name(package),
-    render_issue_search_results(issues)
+    document_name,
+    render_issue_search_results(result$issues)
   ) |>
-  rstudioapi::navigateToFile()
-  
+    rstudioapi::navigateToFile()
+
 }
