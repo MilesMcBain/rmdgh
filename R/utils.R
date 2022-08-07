@@ -22,3 +22,10 @@ time_diff <- function(timestamp) {
   )
 }
 
+base_url_shortcode <- function(url) {
+  if (grepl("github.com", url, ignore.case = TRUE)) {
+    "gh"
+  }  else {
+    stop("Unrecognised issue URL!")
+  }
+}
