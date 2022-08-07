@@ -33,7 +33,8 @@ make_query_arg_list <- function(
   search_query = NULL,
   author = NULL,
   involves = NULL,
-  is_open = TRUE
+  is_open = TRUE,
+  query_description = NULL
 ) {
   as.list(environment())
 }
@@ -42,7 +43,10 @@ make_search_result <- function(
   issues,
   result_obj,
   query,
-  query_description
+  query_description,
+  cache_key,
+  current_page,
+  max_page
 ) {
   call_args <- as.list(environment())
   structure(
@@ -56,8 +60,10 @@ issue_query <- function(
   search_query = NULL,
   author = NULL,
   involves = NULL,
-  is_open = TRUE
+  is_open = TRUE,
+  query_description = NULL
 ) {
+  call_args <- as.list(environment())
   resolved_packages <- lapply(packages, resolve_package_repo)
 
   repos_kvp <- when_supplied_make_kvp_else_null(resolved_packages, "repo")
@@ -81,63 +87,51 @@ issue_query <- function(
     "/search/issues",
     q = glue::glue(
       issue_search_query
-    )
-  )
-
-  result
-}
-
-pkg_issues <- function(package, search_query = "", is_open = TRUE) {
-  call_args <- as.list(environment())
-
-  result <- issue_query(
-    package = package,
-    search_query = search_query,
-    is_open = is_open
+    ),
+    per_page = getOption("issue_search_results_per_page", 30)
   )
 
   make_search_result(
     issues = extract_issues(result),
     result_obj = result,
     query = do.call(make_query_arg_list, call_args),
+    query_description = query_description,
+    current_page = 1L,
+    max_page = as.integer(ceiling(result$total_count / getOption("issue_search_results_per_page", 30)))
+  ) %>%
+  cache_result()
+}
+
+pkg_issues <- function(package, search_query = "", is_open = TRUE) {
+
+  result <- issue_query(
+    package = package,
+    search_query = search_query,
+    is_open = is_open,
     query_description = "package issues"
   ) %>%
     return_search_result()
 }
 
 my_issues <- function(package = NULL, search_query = "", author = get_gh_user(), is_open = TRUE) {
-  call_args <- as.list(environment())
 
   result <- issue_query(
     package = package,
     search_query = search_query,
     author = author,
-    is_open = is_open
-  )
-
-  make_search_result(
-    issues = extract_issues(result),
-    result_obj = result,
-    query = do.call(make_query_arg_list, call_args),
+    is_open = is_open,
     query_description = glue::glue("{paste0(author, collapse = \" \")} issues")
   ) %>%
     return_search_result()
 }
 
 issues_with_me <- function(package = NULL, search_query = "", involves = get_gh_user(), is_open = TRUE) {
-  call_args <- as.list(environment())
 
   result <- issue_query(
     package = package,
     search_query = search_query,
     involves = involves,
-    is_open = is_open
-  )
-
-  make_search_result(
-    issues = extract_issues(result),
-    result_obj = result,
-    query = do.call(make_query_arg_list, call_args),
+    is_open = is_open,
     query_description = glue::glue("issues with {paste0(involves)}")
   ) %>%
     return_search_result()
