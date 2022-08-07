@@ -7,11 +7,12 @@ display_issue_search_results <- function(result) {
       collapse = " "
     )
   )
-
-  create_temp_document(
-    document_name,
-    render_issue_search_results(result$issues)
-  ) |>
+  document_front_matter <-
+    create_temp_document(
+      document_name,
+      render_issue_search_front_matter(result),
+      render_issue_search_results(result$issues)
+    ) |>
     rstudioapi::navigateToFile()
 
 }
