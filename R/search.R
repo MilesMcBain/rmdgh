@@ -79,7 +79,6 @@ issue_query <- function(
       repos_kvp,
       author_kvp,
       involves_kvp,
-      "sort:author-date-desc",
       is_open_kvp
     )
 
@@ -88,7 +87,9 @@ issue_query <- function(
     q = glue::glue(
       issue_search_query
     ),
-    per_page = getOption("issue_search_results_per_page", 30)
+    per_page = getOption("issue_search_results_per_page", 30),
+    sort = "updated",
+    order = "desc"
   )
 
   make_search_result(
