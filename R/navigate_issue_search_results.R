@@ -17,7 +17,7 @@ issue_search_results_forward <- function() {
     result_obj = new_result_object,
     query = issue_search_results$query,
     query_description = issue_search_results$query_description,
-    current_page = issue_search_results$current_page + 1,
+    current_page = issue_search_results$current_page + 1L,
     max_page = issue_search_results$max_page,
     cache_key = issue_search_results$cache_key
   ) %>%
