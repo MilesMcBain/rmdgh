@@ -88,7 +88,7 @@ issue_search_results_expand <- function() {
 
 issue_search_results_collapse <- function() {}
 
-jump_to_github <- function() {
+jump_to_issue_webpage <- function() {
   document_context <- rstudioapi::getActiveDocumentContext()
   shortcode <- match_shortcode(document_context)
   issue_url <- make_issue_url(shortcode)
