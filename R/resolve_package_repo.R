@@ -85,10 +85,12 @@ resolve_from_package_data <- function(package_data) {
   }
   else if (is_github_url(package_data$BugReports)) {
     repo <- get_repo_from_url(package_data$BugReports)
+  } else if (is_github_url(package_data$RemoteUrl)) {
+    repo <- get_repo_from_url(package_data$RemoteUrl)
   } else {
     stop(
       "Couldn't resolve Github URL for: ",
-      package,
+      package_data$Package,
       ".",
       " Try using a qualified name e.g. <github_account>/<repo>"
     )
