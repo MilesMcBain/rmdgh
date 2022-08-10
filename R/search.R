@@ -103,13 +103,13 @@ issue_query <- function(
   cache_result()
 }
 
-pkg_issues <- function(package, search_query = "", is_open = TRUE) {
+repo_issues <- function(repos, search_query = "", is_open = TRUE) {
 
   result <- issue_query(
-    package = package,
+    repos = repos,
     search_query = search_query,
     is_open = is_open,
-    query_description = "package issues"
+    query_description = glue::glue("repository issues for {paste(repos, collapse = \" \")}")
   ) %>%
     return_search_result()
 }
@@ -121,7 +121,7 @@ my_issues <- function(repos = NULL, search_query = "", author = get_gh_user(), i
     search_query = search_query,
     author = author,
     is_open = is_open,
-    query_description = glue::glue("{paste0(author, collapse = \" \")} issues")
+    query_description = glue::glue("{paste(author, collapse = \" \")} issues")
   ) %>%
     return_search_result()
 }

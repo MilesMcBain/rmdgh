@@ -3,10 +3,10 @@ display_issue_search_results <- function(result) {
   document_name <- snakecase::to_snake_case(
     paste(
       result$query_description,
-      paste(result$query$repos, collapse = " "),
       collapse = " "
     )
   )
+
   document_front_matter <-
     create_temp_document(
       document_name,

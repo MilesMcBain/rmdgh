@@ -78,11 +78,10 @@ issue_search_results_expand <- function() {
     character(1)
   )
 
-  matching_issue <- issue_search_results$issues[search_result_urls == issue_url]
+  matching_issue <- 
+    issue_search_results$issues[search_result_urls == issue_url][[1]]
 
-  browser()
-
-  matching_issue$body
+  insert_text_below_cursor_line(matching_issue$body)
   
 }
 
