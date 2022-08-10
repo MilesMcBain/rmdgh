@@ -1,17 +1,19 @@
-resolve_package_repo <- function(package) {
-  if (is_qualified_packagename(package)) {
-    assert_github_repo_exists(package)
-    package
-  } else if (is_installed_locally(package)) {
-    resolve_package_from_local_lib(package)
+resolve_repo <- function(repo) {
+  if (is_qualified_repo_name(repo)) {
+    # e.g. tidyverse/dplyr
+    assert_github_repo_exists(repo)
+    repo
+    # if it's not a qualified name, try to resolve it as an R package name
+  } else if (is_r_package_installed_locally(repo)) {
+    resolve_package_from_local_lib(repo)
   } else {
-    assert_CRAN_page_exists(package)
-    resolve_package_from_CRAN(package)
+    assert_CRAN_page_exists(repo)
+    resolve_package_from_CRAN(repo)
   }
 }
 
-is_qualified_packagename <- function(package) {
-  grepl("^[A-Za-z0-9-]+/[A-Za-z.0-9]+$", package)
+is_qualified_repo_name <- function(repo) {
+  grepl("^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$", repo)
 }
 
 assert_github_repo_exists <- function(repo) {
@@ -33,7 +35,7 @@ assert_CRAN_page_exists <- function(repo) {
   if (res$status_code != 200) stop(repo, " is not installed locally, and could not be located on CRAN")
 }
 
-is_installed_locally <- function(package) {
+is_r_package_installed_locally <- function(package) {
   tryCatch(
     length(find.package(package)) > 0,
     error = function(e) FALSE
@@ -60,7 +62,7 @@ is_github_url <- function(url) {
 
 get_repo_from_url <- function(url) {
   regexpr(
-    "github.com/[A-Za-z0-9-]+/[A-Za-z.0-9]+",
+    "github.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+",
     url,
     ignore.case = TRUE
   ) %>%

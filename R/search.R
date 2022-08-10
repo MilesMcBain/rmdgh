@@ -29,7 +29,7 @@ when_supplied_make_kvp_else_null <- function(value, key) {
 }
 
 make_query_arg_list <- function(
-  packages = NULL,
+  repos = NULL,
   search_query = NULL,
   author = NULL,
   involves = NULL,
@@ -56,7 +56,7 @@ make_search_result <- function(
 }
 
 issue_query <- function(
-  packages = NULL,
+  repos = NULL,
   search_query = NULL,
   author = NULL,
   involves = NULL,
@@ -64,9 +64,9 @@ issue_query <- function(
   query_description = NULL
 ) {
   call_args <- as.list(environment())
-  resolved_packages <- lapply(packages, resolve_package_repo)
+  resolved_repos <- lapply(repos, resolve_repo)
 
-  repos_kvp <- when_supplied_make_kvp_else_null(resolved_packages, "repo")
+  repos_kvp <- when_supplied_make_kvp_else_null(resolved_repos, "repo")
   author_kvp <- when_supplied_make_kvp_else_null(author, "author")
   involves_kvp <- when_supplied_make_kvp_else_null(involves, "involves")
   is_open_kvp <- is_open_qualifier(is_open)
@@ -114,10 +114,10 @@ pkg_issues <- function(package, search_query = "", is_open = TRUE) {
     return_search_result()
 }
 
-my_issues <- function(package = NULL, search_query = "", author = get_gh_user(), is_open = TRUE) {
+my_issues <- function(repos = NULL, search_query = "", author = get_gh_user(), is_open = TRUE) {
 
   result <- issue_query(
-    package = package,
+    repos = repos,
     search_query = search_query,
     author = author,
     is_open = is_open,
@@ -126,10 +126,10 @@ my_issues <- function(package = NULL, search_query = "", author = get_gh_user(),
     return_search_result()
 }
 
-issues_with_me <- function(package = NULL, search_query = "", involves = get_gh_user(), is_open = TRUE) {
+issues_with_me <- function(repos = NULL, search_query = "", involves = get_gh_user(), is_open = TRUE) {
 
   result <- issue_query(
-    package = package,
+    repos = repos,
     search_query = search_query,
     involves = involves,
     is_open = is_open,

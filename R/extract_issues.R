@@ -18,7 +18,7 @@ extract_issues.gh_response <- function(result) {
       number = item$number,
       title = item$title,
       body = item$body,
-      package = get_repo_from_url(item$html_url),
+      repo = get_repo_from_url(item$html_url),
       api_url = item$url,
       html_url = item$html_url,
       labels = extract_labels_gh(item$labels)
