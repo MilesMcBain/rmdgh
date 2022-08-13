@@ -66,7 +66,11 @@ issue_search_results_expand <- function() {
   document_context <- rstudioapi::getActiveDocumentContext()
 
   shortcode <- match_shortcode(document_context)
-  if (length(shortcode) == 0) message("nothing to expand.")
+
+  if (length(shortcode) == 0) {
+    message("nothing to expand.")
+    return(invisible(NULL))
+  }
 
   issue_url <- make_issue_url(shortcode)
   
