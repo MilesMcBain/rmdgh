@@ -81,7 +81,8 @@ issue_search_results_expand <- function() {
   matching_issue <- 
     issue_search_results$issues[search_result_urls == issue_url][[1]]
 
-  insert_text_below_cursor_line(matching_issue$body)
+  render_issue_body(matching_issue) %>%
+  insert_text_below_cursor_line()
   
 }
 
@@ -107,7 +108,7 @@ match_shortcode <- function(document_context) {
 }
 
 forward_match_shortcode <- function(content, position) {
-  match <- gregexec("`[a-z]{2}\\s[A-Za-z_./-]+#[0-9]+`", content)[[1]]
+  match <- gregexec("`[a-z]{2}\\s[A-Za-z0-9_./-]+#[0-9]+`", content)[[1]]
 
   if (all(match < 0)) return(NULL)
 
@@ -129,7 +130,7 @@ make_issue_url <- function(shortcode) {
 
   repo <- regmatches(
     shortcode,
-    regexpr("(?<=\\s)[A-Za-z_./-]+", shortcode, perl = TRUE)
+    regexpr("(?<=\\s)[A-Za-z0-9_./-]+", shortcode, perl = TRUE)
   )
 
   issue_number <- regmatches(

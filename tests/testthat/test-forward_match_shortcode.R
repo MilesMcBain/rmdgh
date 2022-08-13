@@ -28,4 +28,12 @@ test_that("forward_match_shortcode", {
     forward_match_shortcode(match, 11),
     "`gh milesmcbain/datapasta#33`"
   )
+
+  numbers <- "- Need to look at faceting section `gh hadley/r4ds#1035` whole game :soccer:"
+
+  expect_equal(
+    forward_match_shortcode(numbers, 10),
+    "`gh hadley/r4ds#1035`"
+  )
+
 })
