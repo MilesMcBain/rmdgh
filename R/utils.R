@@ -34,3 +34,5 @@ flatten_char <- function(char_vec) {
   if (is.null(char_vec)) return(NULL)
   paste0(char_vec, collapse = ", ")
 }
+
+`%||%` <- function(lhs, rhs) if (is.null(lhs)) rhs else lhs
