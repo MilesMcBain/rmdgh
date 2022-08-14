@@ -14,16 +14,19 @@ extract_issues.default <- function(result) {
 extract_issues.gh_response <- function(result) {
 
   lapply(result$items, function(item) {
-    list(
-      number = item$number,
-      title = item$title,
-      body = item$body %||% "",
-      repo = get_repo_from_url(item$html_url),
-      api_url = item$url,
-      html_url = item$html_url,
-      labels = extract_labels_gh(item$labels),
-      author = item$user$login,
-      created_at = item$created_at
+    structure(
+      list(
+        number = item$number,
+        title = item$title,
+        body = item$body %||% "",
+        repo = get_repo_from_url(item$html_url),
+        api_url = item$url,
+        html_url = item$html_url,
+        labels = extract_labels_gh(item$labels),
+        author = item$user$login,
+        created_at = item$created_at
+      ),
+      class = "issue"
     )
   })
 

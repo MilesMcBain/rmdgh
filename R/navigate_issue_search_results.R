@@ -63,34 +63,19 @@ issue_search_results_backward <- function() {
 }
 
 issue_search_results_expand <- function() {
-  document_context <- rstudioapi::getActiveDocumentContext()
-
-  shortcode <- match_shortcode(document_context)
-
-  if (length(shortcode) == 0) {
-    message("nothing to expand.")
-    return(invisible(NULL))
-  }
-
-  issue_url <- make_issue_url(shortcode)
-  
-  issue_search_results <- get_search_results_from_yaml()
-
-  search_result_urls <- vapply(
-    issue_search_results$issues,
-    function(issue) issue$html_url,
-    character(1)
-  )
-
-  matching_issue <- 
-    issue_search_results$issues[search_result_urls == issue_url][[1]]
-
+  matching_issue <- get_issue_from_cursor_context()
   render_issue_body(matching_issue) %>%
   insert_text_below_cursor_line()
-  
 }
 
 issue_search_results_collapse <- function() {}
+
+issue_jump_to_thread <- function() {
+  matching_issue <- get_issue_from_cursor_context()
+  issue_thread <- get_issue_thread(matching_issue)
+
+  display_issue_thread(issue_thread)
+}
 
 jump_to_issue_webpage <- function() {
   document_context <- rstudioapi::getActiveDocumentContext()
@@ -148,4 +133,30 @@ make_issue_url <- function(shortcode) {
     stop("unknown shortcode service: ", service)
   )
 
+}
+
+get_issue_from_cursor_context <- function() {
+  document_context <- rstudioapi::getActiveDocumentContext()
+
+  shortcode <- match_shortcode(document_context)
+
+  if (length(shortcode) == 0) {
+    message("the cursor is not on or ahead of an issue code.")
+    return(invisible(NULL))
+  }
+
+  issue_url <- make_issue_url(shortcode)
+  
+  issue_search_results <- get_search_results_from_yaml()
+
+  search_result_urls <- vapply(
+    issue_search_results$issues,
+    function(issue) issue$html_url,
+    character(1)
+  )
+
+  matching_issue <- 
+    issue_search_results$issues[search_result_urls == issue_url][[1]]
+
+  matching_issue
 }

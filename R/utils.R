@@ -22,7 +22,7 @@ time_diff <- function(timestamp) {
   )
 }
 
-base_url_shortcode <- function(url) {
+service_from_base_url <- function(url) {
   if (grepl("github.com", url, ignore.case = TRUE)) {
     "gh"
   }  else {
