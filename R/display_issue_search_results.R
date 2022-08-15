@@ -6,7 +6,6 @@ display_issue_search_results <- function(result) {
     )
   )
 
-  document_front_matter <-
     create_temp_document(
       document_name,
       render_issue_search_front_matter(result),

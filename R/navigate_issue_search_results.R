@@ -70,7 +70,7 @@ issue_search_results_expand <- function() {
 
 issue_search_results_collapse <- function() {}
 
-issue_jump_to_thread <- function() {
+jump_to_issue_thread <- function() {
   matching_issue <- get_issue_from_cursor_context()
   issue_thread <- get_issue_thread(matching_issue)
 
