@@ -1,7 +1,15 @@
 get_gh_email <- function() {
   gh_config <- gert::git_config()
   email <- gh_config[gh_config$name == "user.email", "value"]
-  if (nrow(email) == 0) stop("Couldn't find user.email it git config")
+
+  if (nrow(email) == 0) {
+    gh_config_global <- gert::git_config_global()
+    email <- gh_config_global[gh_config$name == "user.email", "value"]
+  }
+
+  if (nrow(email) == 0) {
+    stop("Couldn't find user.email it git config")
+  }
   email$value
 }
 
