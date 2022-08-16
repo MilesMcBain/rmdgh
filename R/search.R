@@ -1,12 +1,13 @@
 get_gh_email <- function() {
-   email <- tryCatch({
+  email <- tryCatch(
+    {
       gh_config <- gert::git_config()
       gh_config[gh_config$name == "user.email", "value"]
     },
     error = function(x) {
       NULL
     }
-  ) 
+  )
 
   if (is.null(email)) {
     gh_config_global <- gert::git_config_global()
@@ -29,6 +30,16 @@ get_gh_user <- function() {
   if (res$total_count == 0) stop("Could not find a GitHub user for ", user_email)
   if (res$total_count > 1) warning("Found more than one GitHub user for ", user_email)
   res$items[[1]]$login
+}
+
+get_repo_remote <- function() {
+  tryCatch(
+    {
+      remote <- gh::gh_tree_remote()
+      glue::glue("{remote$username}/{remote$repo}")
+    },
+    error = function(x) NULL
+  )
 }
 
 is_open_qualifier <- function(is_open) {
@@ -115,10 +126,21 @@ issue_query <- function(
     current_page = 1L,
     max_page = as.integer(ceiling(result$total_count / getOption("issue_search_results_per_page", 30)))
   ) %>%
-  cache_result()
+    cache_result()
 }
 
-repo_issues <- function(repos, search_query = "", is_open = TRUE) {
+repo_issues <- function(repos = NULL, search_query = "", is_open = TRUE) {
+
+  if (is.null(repos)) {
+    repo_remote <- get_repo_remote()
+    if (is.null(repo_remote)) {
+      stop(
+        "'repos' was not supplied",
+        "and could not be defaulted from current working directory."
+      )
+    }
+    repos <- repo_remote
+  }
 
   result <- issue_query(
     repos = repos,
