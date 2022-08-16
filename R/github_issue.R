@@ -92,12 +92,14 @@ github_issue <- function(
         draft
       )
     }
-
-    github_document_format_post_processor(
-      metadata,
-      input_file,
-      output_file,
-      ...
+    withr::with_envvar(
+      c(RMARKDOWN_PREVIEW_DIR = get_pkg_user_dir()),
+      github_document_format_post_processor(
+        metadata,
+        input_file,
+        output_file,
+        ...
+      )
     )
   }
 
