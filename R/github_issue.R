@@ -51,8 +51,29 @@ github_issue <- function(
       ) %>%
       which()
 
-    output_lines <-
+    if (length(footer_line) == 0) { 
+      # There was no footer so assume it's a fresh issue
+      # We just need to crop the yaml
+      yaml_fences <-
+        grepl(
+          "^---",
+          input_lines
+        ) %>%
+        which()
+      
+      if (length(yaml_fences) >= 2) {
+        footer_line <- yaml_fences[2]
+      } else{
+        # Send everything
+        footer_line <- 0
+      }
+    }
+
+    output_lines <- if (footer_line > 0) {
       input_lines[-seq(footer_line)]
+    } else {
+      input_file
+    }
 
     xfun::write_utf8(
       output_lines,
@@ -125,7 +146,8 @@ github_issue <- function(
 github_issue_submit <- function(
   repo,
   title,
-  body
+  body,
+  draft = FALSE
 ) {
 
   query <-
