@@ -1,7 +1,7 @@
 resolve_repo <- function(repo) {
   if (is_qualified_repo_name(repo)) {
     # e.g. tidyverse/dplyr
-    assert_github_repo_exists(repo)
+    assert_github_exists(repo = repo)
     repo
     # if it's not a qualified name, try to resolve it as an R package name
   } else if (is_r_package_installed_locally(repo)) {
@@ -16,10 +16,13 @@ is_qualified_repo_name <- function(repo) {
   grepl("^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$", repo)
 }
 
-assert_github_repo_exists <- function(repo) {
+assert_github_exists <- function(repo, issue = NULL) {
+  gh_issue <- glue::glue("/issues/{issue}")
+  gh_repo <- glue::glue("/repos/{repo}")
+  query <- paste0(gh_repo, gh_issue, collapse = "") 
   tryCatch(
     gh::gh(
-      glue::glue("/repos/{repo}")
+      query
     ),
     error = function(e) {
       stop("could not find repository on GitHub: ", repo)
@@ -96,7 +99,7 @@ resolve_from_package_data <- function(package_data) {
     )
   }
 
-  assert_github_repo_exists(repo)
+  assert_github_exists(repo = repo)
   repo
 }
 

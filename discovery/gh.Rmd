@@ -16,6 +16,7 @@ res <- gh(
   "/search/issues",
   q = "involves:miles.mcbain type:issue in:title,body repo:tidyverse/dplyr" 
 )
+
 ```
 
 # find a user
@@ -32,9 +33,56 @@ res <- gh(
 ## get user's email
 
 ```r
+
 library(gert)
 library(dplyr)
 gert::git_config() |>
   filter(name == "user.email") |>
   pull(value)
+
 ```  
+
+# make an issue comment
+
+https://docs.github.com/en/rest/issues/comments#create-an-issue-comment
+
+```r
+repo <- "milesmcbain/testrpkg"
+number <- 2
+res <- gh::gh(
+  glue::glue("POST /repos/{repo}/issues/{100}/comments"),
+  body = "# test\n does this work?"
+  )
+res
+
+```
+
+# create an issue
+
+```r
+repo <- "milesmcbain/testrpkg"
+title <- "submitted via API"
+body <- "# test\n does this work?"
+
+res <- gh::gh(
+  glue::glue("POST /repos/{repo}/issues"),
+  title = title,
+  body = body
+  )
+
+res$html_url
+
+)
+```
+
+# close the issue
+```r
+repo <- "milesmcbain/testrpkg"
+number <- 3
+
+res <- gh::gh(
+  glue::glue("POST /repos/{repo}/issues/{number}"),
+  state = "closed"
+  )
+
+```

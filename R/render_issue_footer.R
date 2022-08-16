@@ -1,3 +1,3 @@
 render_issue_footer <- function() {
-  "-=$Type your comment below. This line will be removed.$=-"
+  "<!-- %Type your comment below. This line will be removed% -->"
 }
