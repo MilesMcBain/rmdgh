@@ -1,10 +1,16 @@
 get_gh_email <- function() {
-  gh_config <- gert::git_config()
-  email <- gh_config[gh_config$name == "user.email", "value"]
+   email <- tryCatch({
+      gh_config <- gert::git_config()
+      gh_config[gh_config$name == "user.email", "value"]
+    },
+    error = function(x) {
+      NULL
+    }
+  ) 
 
-  if (nrow(email) == 0) {
+  if (is.null(email)) {
     gh_config_global <- gert::git_config_global()
-    email <- gh_config_global[gh_config$name == "user.email", "value"]
+    email <- gh_config_global[gh_config_global$name == "user.email", "value"]
   }
 
   if (nrow(email) == 0) {
