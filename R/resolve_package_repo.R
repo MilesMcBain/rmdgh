@@ -19,7 +19,7 @@ is_qualified_repo_name <- function(repo) {
 assert_github_exists <- function(repo, issue = NULL) {
   gh_issue <- glue::glue("/issues/{issue}")
   gh_repo <- glue::glue("/repos/{repo}")
-  query <- paste0(gh_repo, gh_issue, collapse = "") 
+  query <- paste0(gh_repo, gh_issue, collapse = "")
   tryCatch(
     gh::gh(
       query
@@ -28,10 +28,11 @@ assert_github_exists <- function(repo, issue = NULL) {
       stop("could not find repository on GitHub: ", repo)
     }
   )
+  invisible(TRUE)
 }
 
 assert_CRAN_page_exists <- function(repo) {
-  # I tried to make this a HEAD request but the CRAN server doesn't seem to respond to 
+  # I tried to make this a HEAD request but the CRAN server doesn't seem to respond to
   # HEAD correctly.
   res <- curl::curl_fetch_memory(cran_url(repo))
 

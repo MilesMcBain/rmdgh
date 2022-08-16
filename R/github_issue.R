@@ -16,6 +16,9 @@ github_issue <- function(
     stop("unrecognisable issue number: ", number)
   }
   assert_github_exists(repo = repo, issue = number)
+  if (is.null(number) && close_with_comment) {
+    stop("Can't create a closed issue ('close_with_comment: yes' for new issue.)")
+  }
 
   github_document_format <- rmarkdown::github_document(
     fig_width = fig_width,
@@ -127,6 +130,7 @@ github_issue <- function(
   # on exit:
   on_exit <- function() {
     if (close_with_comment && !draft) {
+      assert_github_exists(repo, number)
       github_issue_close(
         repo = repo,
         number = number
