@@ -103,7 +103,7 @@ github_issue <- function(
 
   # on exit:
   on_exit <- function() {
-    if (close_with_comment) {
+    if (close_with_comment && !draft) {
       github_issue_close(
         repo = repo,
         number = number
