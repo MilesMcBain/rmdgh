@@ -5,6 +5,7 @@ get_gh_email <- function() {
   email$value
 }
 
+#' @export
 get_gh_user <- function() {
   user_email <- get_gh_email()
   res <- gh::gh(

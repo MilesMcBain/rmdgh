@@ -1,0 +1,4 @@
+name: github_issue
+description: >
+   A GitHub issue
+create_dir: FALSE

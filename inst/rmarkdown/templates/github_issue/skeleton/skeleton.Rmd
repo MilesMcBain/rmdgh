@@ -1,0 +1,21 @@
+---
+title: "Your issue title"
+author: "`r issuecreep::get_gh_user()`"
+output: 
+  issuecreep::github_issue:
+    repo: milesmcbain/issuecreep
+    draft: no
+    close_with_comment: no
+---
+
+```{r setup, include=FALSE}
+# also useful in yaml - number: of an existing issue to make a new comment in thread
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, error = TRUE)
+```
+
+Here is my reprex:
+
+```{r, eval = TRUE}
+  library(issuecreep)
+  issuecreep:::repo_issues("doesnt/exist")
+```
