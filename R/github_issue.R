@@ -9,7 +9,8 @@ github_issue <- function(
   fig_height = 5,
   dev = "png",
   df_print = "default",
-  math_method = "default"
+  math_method = "default",
+  wrap = "preserve" # auto | none | preserve
 ) {
 
   if (!is.null(number) && !is.numeric(number)) {
@@ -26,7 +27,8 @@ github_issue <- function(
     dev = dev,
     df_print = df_print,
     math_method = math_method,
-    html_preview = draft
+    html_preview = draft,
+    pandoc_args = c("--wrap", wrap)
   )
 
   github_document_format_pre_processor <-
