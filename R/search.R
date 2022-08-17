@@ -129,6 +129,7 @@ issue_query <- function(
     cache_result()
 }
 
+#' @export 
 repo_issues <- function(repos = NULL, search_query = "", is_open = TRUE) {
 
   if (is.null(repos)) {
@@ -151,6 +152,7 @@ repo_issues <- function(repos = NULL, search_query = "", is_open = TRUE) {
     return_search_result()
 }
 
+#' @export
 my_issues <- function(repos = NULL, search_query = "", author = get_gh_user(), is_open = TRUE) {
 
   result <- issue_query(
@@ -163,6 +165,7 @@ my_issues <- function(repos = NULL, search_query = "", author = get_gh_user(), i
     return_search_result()
 }
 
+#' @export
 issues_with_me <- function(repos = NULL, search_query = "", involves = get_gh_user(), is_open = TRUE) {
 
   result <- issue_query(

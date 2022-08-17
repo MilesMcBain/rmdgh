@@ -1,12 +1,3 @@
-#' .. content for \description{} (no empty lines) ..
-#'
-#' .. content for \details{} ..
-#'
-#' @title
-#' @param matching_issue
-#' @return
-#' @author Miles McBain
-#' @export
 get_issue_thread <- function(matching_issue) {
 
   result <- gh::gh(

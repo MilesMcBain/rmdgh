@@ -13,6 +13,7 @@ get_search_results_from_yaml <- function() {
   issue_search_results
 }
 
+#' @export
 issue_search_results_forward <- function() {
   
   issue_search_results <- get_search_results_from_yaml()
@@ -38,6 +39,7 @@ issue_search_results_forward <- function() {
   
 }
 
+#' @export
 issue_search_results_backward <- function() {
 
   issue_search_results <- get_search_results_from_yaml()
@@ -62,6 +64,7 @@ issue_search_results_backward <- function() {
   display_issue_search_results()
 }
 
+#' @export
 issue_search_results_expand <- function() {
   matching_issue <- get_issue_from_cursor_context()
   render_issue_body(matching_issue) %>%
@@ -70,6 +73,7 @@ issue_search_results_expand <- function() {
 
 issue_search_results_collapse <- function() {}
 
+#' @export
 jump_to_issue_thread <- function() {
   matching_issue <- get_issue_from_cursor_context()
   issue_thread <- get_issue_thread(matching_issue)
@@ -77,6 +81,7 @@ jump_to_issue_thread <- function() {
   display_issue_thread(issue_thread)
 }
 
+#' @export
 jump_to_issue_webpage <- function() {
   document_context <- rstudioapi::getActiveDocumentContext()
   shortcode <- match_shortcode(document_context)
