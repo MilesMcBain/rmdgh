@@ -1,4 +1,3 @@
-#' @export
 extract_comments <- function(result) UseMethod("extract_comments", result)
 
 #' @export

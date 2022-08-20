@@ -1,4 +1,3 @@
-#' @export
 extract_issues <- function(result, ...) UseMethod("extract_issues", result)
 
 #' @export
