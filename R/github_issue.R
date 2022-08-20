@@ -170,7 +170,7 @@ github_issue_submit <- function(
     body = body
   )
 
-  message("GitHub issue created. See ", res$html_url)
+  message("\nGitHub issue created. See ", res$html_url)
 }
 
 github_comment_submit <- function(repo, number, body, draft = FALSE) {
@@ -187,7 +187,7 @@ github_comment_submit <- function(repo, number, body, draft = FALSE) {
     body = body
   )
 
-  message("GitHub issue comment submitted. See ", res$html_url)
+  message("\nGitHub issue comment submitted. See ", res$html_url)
 }
 
 github_issue_close <- function(repo, number) {
