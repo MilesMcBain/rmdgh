@@ -74,7 +74,7 @@ output:
 
   - `action` is one of 'create', 'update', 'comment'
     - `number` is only valid with 'update' or 'comment'
-    - `action: update` let's you update the issue title and body. Comments cannot be updated.
+    - `action: update` lets you update the issue title and body. Comments cannot be updated.
 
 ### Commenting on Issues
 
