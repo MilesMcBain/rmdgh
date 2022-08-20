@@ -1,9 +1,9 @@
 Package: issuecreep
-Title: What the Package Does (One Line, Title Case)
+Title: R to GitHub Rmarkdown productivity
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Miles", "McBain", , "miles.mcbain@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-2865-2548"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8

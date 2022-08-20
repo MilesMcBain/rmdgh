@@ -50,6 +50,10 @@ Probably bind these to keys.
 
 ## GitHub issue thread RMarkdown output
 
+We have an Rmarkdown output format called `github_issue` that can be used to submit issues, issue updates, and issue comments to GitHub on document render.
+
+### Drafting issues
+
   - `draft_issue()` Will create a new RMarkdown GitHub issue, defaulting to the current repo.
 
 Config you can use looks something like this:
@@ -72,7 +76,14 @@ output:
     - `number` is only valid with 'update' or 'comment'
     = `action: update` let's you update the issue title and body. Comments cannot be updated.
 
+### Commenting on Issues
+
+You can type in the necessary metadata to make a comment in the draft you're given above. But much nicer to navigate to the issue thread with `jump_to_issue_thread()` described above. Metadata is automatically set up for to submit a comment on render in this case.
+
+
  To make reprexes use the supplied `{reprex}` `{knitr}` engine. I.e. make a code chunk that uses `{reprex}` instead of `{r}`.
+
+ 
 
 # FAQ
 
