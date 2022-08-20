@@ -117,5 +117,5 @@ languages. However much of this package works via the `{rstudioapi}` which means
 it's not likely to appeal to quarto users from other languages.
 
 Probably a Quarto version should be implemented as VSCode extension? But then
-the potential userbase is much smaller at present. Let's see what Posit does
+the potential user base is much smaller at present. Let's see what Posit does
 with extensions in the stand-alone Quarto editor that must surely be coming.
