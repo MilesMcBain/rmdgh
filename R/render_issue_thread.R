@@ -9,9 +9,19 @@
 #' @export
 render_issue_thread <- function(thread) {
 
-  lapply(thread, function(comment) {
-    render_thread_comment(comment)
-  }) %>%
+  issue_body <-
+    render_thread_comment(thread[[1]])
+
+  issue_comments <-
+    lapply(thread[-1], function(comment) {
+      render_thread_comment(comment)
+    })
+
+  c(
+    issue_body,
+    render_issue_body_footer(),
+    issue_comments
+  ) %>%
     glue::glue_collapse(sep = "\n")
 
 }

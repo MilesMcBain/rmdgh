@@ -10,7 +10,8 @@ display_issue_thread <- function(issue_thread) {
       paste(
         render_issue_thread(issue_thread$thread),"\n",
         render_issue_footer(),
-        collapse = "\n"
+        collapse = "\n",
+        sep = ""
       )
     ) |>
     rstudioapi::navigateToFile()
