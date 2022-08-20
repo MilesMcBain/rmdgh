@@ -87,6 +87,19 @@ You can type in the necessary metadata to make a comment in the draft you're giv
 
 # FAQ
 
+## Why? Why have you done this?
+
+I find typing into little text input boxes on GitHub.com a bit of a buzz kill
+when drafting issues. My text editor feels so much nicer to draft technical
+communications with.
+
+There's also a bit of jankyness that comes from the fact that most of the time
+when drafting issues I'll want a reprex, which has to be coded up in R, rendered, and then pasted into the issue. But sometimes as the issue evolves the
+reprex needs to also, and there's awkward iterative back and forth involving context switching
+between applications.
+
+This is exactly the kind of source-output syncronisation and context switching pain that `{knitr}` and `{rmarkdown}` take away. Why wouldn't we draft GitHub issues and comments that mash up code and prose in RMarkdown?!
+
 ## Why are you using Rmd instead of Quarto?
 
 I've never used Quarto! I need to walk before I can run with all this document
