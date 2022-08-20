@@ -80,7 +80,7 @@ output:
 
 You can type in the necessary metadata to make a comment in the draft you're given above. But much nicer to navigate to the issue thread with `jump_to_issue_thread()` described above. Metadata is automatically set up for to submit a comment on render in this case.
 
-### Making reprex
+### Making a reprex
 
 `reprex::reprex()` doesn't really work well inside a code chunk. You may not even need it though, since rendering a `github_issue()` does a similar thing to `{reprex}` so long as you render it in a fresh session. 
 
