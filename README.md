@@ -78,7 +78,7 @@ output:
 
 ### Commenting on Issues
 
-You can type in the necessary metadata to make a comment in the draft you're given above. But much nicer to navigate to the issue thread with `jump_to_issue_thread()` described above. Metadata is automatically set up for to submit a comment on render in this case.
+You can type in the necessary metadata to make a comment in the draft you're given above. But it's much nicer to navigate to the issue thread with `jump_to_issue_thread()` described above. Metadata is automatically set up for to submit a comment on render in this case.
 
 ### Making a reprex
 
