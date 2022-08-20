@@ -3,6 +3,7 @@
 github_issue <- function(
   repo,
   number = NULL,
+  action = "create", # create | update | comment
   draft = TRUE,
   close_with_comment = FALSE,
   fig_width = 7,
@@ -19,6 +20,12 @@ github_issue <- function(
   assert_github_exists(repo = repo, issue = number)
   if (is.null(number) && close_with_comment) {
     stop("Can't create a closed issue ('close_with_comment: yes' for new issue.)")
+  }
+  if (!(action %in% c("create", "update", "comment"))) {
+    stop("action must be one of create, update or comment")
+  }
+  if (action == "create" && !is.null(number)) {
+    stop("Supplied an issue number for 'create' action (default). Only applicable for 'update' or 'comment'")
   }
 
   github_document_format <- rmarkdown::github_document(
@@ -41,44 +48,26 @@ github_issue <- function(
 
 
   # Preprocessor:
-  # 1. Remove everything up to and including the footer line output by
+  # 1.1 If action is 'comment' Remove everything up to and including the footer line output by
   #   render_issue_footer()
+  # 1.2 If action is 'create' Remove the yaml only
+  # 1.3 If action is 'update' Remove everything below and includding `render_issue_body_footer()`.
+  #  - Remove the yaml
+  #  - Remove the attribution / time stamp line
   # 2. Call github_document preprocessor
   pre_processor <- function(metadata, input_file, ...) {
     input_lines <-
       xfun::read_utf8(input_file) %>%
       enc2utf8()
 
-    footer_line <-
-      grepl(
-        render_issue_footer(),
-        input_lines
-      ) %>%
-      which()
-
-    if (length(footer_line) == 0) { 
-      # There was no footer so assume it's a fresh issue
-      # We just need to crop the yaml
-      yaml_fences <-
-        grepl(
-          "^---",
-          input_lines
-        ) %>%
-        which()
-      
-      if (length(yaml_fences) >= 2) {
-        footer_line <- yaml_fences[2]
-      } else{
-        # Send everything
-        footer_line <- 0
-      }
-    }
-
-    output_lines <- if (footer_line > 0) {
-      input_lines[-seq(footer_line)]
-    } else {
-      input_file
-    }
+    output_lines <-
+      switch(
+        action,
+        create = get_output_lines_for_create(input_lines),
+        comment = get_output_lines_for_comment(input_lines),
+        update = get_output_lines_for_update(input_lines, metadata$author),
+        stop("Unknown issue action: ", action)
+      )
 
     xfun::write_utf8(
       output_lines,
@@ -102,22 +91,30 @@ github_issue <- function(
       xfun::read_utf8(output_file) %>%
       glue::glue_collapse(sep = "\n")
 
-
-    if (is.null(number)) {
-      github_issue_submit(
+    switch(
+      action,
+      create = github_issue_submit(
         repo = repo,
         title = metadata$title,
         body = issue_body,
         draft = draft
-      )
-    } else {
-      github_comment_submit(
+      ),
+      comment = github_comment_submit(
         repo = repo,
         number = number,
         body = issue_body,
-        draft
-      )
-    }
+        draft = draft
+      ),
+      update = github_update_submit(
+        repo = repo,
+        number = number,
+        title = metadata$title,
+        body = issue_body,
+        draft = draft
+      ),
+      stop("Unknown issue action: ", action)
+    )
+
     withr::with_envvar(
       c(RMARKDOWN_PREVIEW_DIR = get_pkg_user_dir()),
       github_document_format_post_processor(
@@ -160,7 +157,7 @@ github_issue_submit <- function(
     glue::glue("POST /repos/{repo}/issues")
 
   if (draft) {
-    message("Did not submit ", query, "to GitHub, set 'draft: no' to submit.")
+    just_a_draft(query)
     return(invisible(NULL))
   }
 
@@ -178,7 +175,7 @@ github_comment_submit <- function(repo, number, body, draft = FALSE) {
     glue::glue("POST /repos/{repo}/issues/{number}/comments")
 
   if (draft) {
-    message("Did not submit ", query, "to GitHub, set 'draft: no' to submit.")
+    just_a_draft(query)
     return(invisible(NULL))
   }
 
@@ -188,6 +185,24 @@ github_comment_submit <- function(repo, number, body, draft = FALSE) {
   )
 
   message("\nGitHub issue comment submitted. See ", res$html_url)
+}
+
+github_update_submit <- function(repo, number, title, body, draft = FALSE) {
+
+  query <- glue::glue("PATCH /repos/{repo}/issues/{number}")
+
+  if (draft) {
+    just_a_draft(query)
+    return(invisible(NULL))
+  }
+
+  res <- gh::gh(
+    query,
+    title = title,
+    body = body
+  )
+
+  message("\nGitHub issue update submitted. See ", res$html_url)
 }
 
 github_issue_close <- function(repo, number) {
@@ -200,4 +215,65 @@ github_issue_close <- function(repo, number) {
   close_message <- glue::glue("{repo}#{number} was closed. ('close_with_comment: yes').")
 
   message(close_message)
+}
+
+get_output_lines_for_create <- function(input_lines) {
+  yaml_fences <-
+    grepl(
+      "^---",
+      input_lines
+    ) %>%
+    which()
+
+  output_lines <-
+    if (length(yaml_fences) >= 2) {
+      footer_line <- yaml_fences[2]
+      input_lines[-seq(footer_line)]
+    } else {
+      # Send everything
+      input_lines
+    }
+}
+
+get_output_lines_for_comment <- function(input_lines) {
+  footer_line <-
+    grepl(render_issue_footer(), input_lines) %>%
+    which()
+
+  input_lines[-seq(footer_line)]
+}
+
+get_output_lines_for_update <- function(input_lines, author) {
+  delete_below <-
+    grepl(render_issue_body_footer(), input_lines) %>%
+    which()
+
+  body_lines <-
+    input_lines[1:(delete_below - 1)]
+
+  footer_line <-
+    grepl(
+      glue::glue("@{author}"),
+      input_lines
+    ) %>%
+    match(TRUE, .)
+
+  if (is.na(footer_line)) {
+    stop("Could not find author attribution line in issue for action 'update'.")
+  }
+
+  body_lines[-seq(footer_line)] %>%
+  trim_leading_and_trailing_blanks()
+
+}
+
+just_a_draft <- function(query) message("\nDid not submit ", query, " to GitHub, set 'draft: no' to submit.\n")
+
+trim_leading_and_trailing_blanks <- function(text_lines) {
+  line_mask <- rep(FALSE, length(text_lines))
+  line_mask[1] <- TRUE
+  line_mask[length(text_lines)] <- TRUE
+  lines_to_drop <- (text_lines == "") & line_mask
+
+  text_lines[!lines_to_drop] 
 }
