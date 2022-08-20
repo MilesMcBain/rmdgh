@@ -80,10 +80,19 @@ output:
 
 You can type in the necessary metadata to make a comment in the draft you're given above. But much nicer to navigate to the issue thread with `jump_to_issue_thread()` described above. Metadata is automatically set up for to submit a comment on render in this case.
 
+### Making reprex
 
- To make reprexes use the supplied `{reprex}` `{knitr}` engine. I.e. make a code chunk that uses `{reprex}` instead of `{r}`.
+`reprex::reprex()` doesn't really work well inside a code chunk. You may not even need it though, since rendering a `github_issue()` does a similar thing to `{reprex}` so long as you render it in a fresh session. 
 
- 
+You can use `error = TRUE` in the chunk options to display error output instead of stopping.
+
+However, I decided to make a `{reprex}` `{knitr}` engine, since I think the specific output from the `{reprex}` package is expected in some communities, and could cause confusion if it is absent.
+
+So with the new engine you can make a code chunk that uses `{reprex}` instead of
+`{r}`. The output will be as if you had called `reprex::reprex()` on the code in
+that chunk. Code in these chunks is self-contained, as per regular reprexes.
+
+
 
 # FAQ
 
