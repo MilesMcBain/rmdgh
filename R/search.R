@@ -32,6 +32,8 @@ get_gh_user <- function() {
   res$items[[1]]$login
 }
 
+
+#' @export
 get_repo_remote <- function() {
   tryCatch(
     {
@@ -43,12 +45,13 @@ get_repo_remote <- function() {
 }
 
 is_open_qualifier <- function(is_open) {
-  if (is_open) "is:open" else NULL
+  if (is.null(is_open)) return(NULL)
+  if (is_open) "is:open" else "is:closed"
 }
 
 when_supplied_make_kvp_else_null <- function(value, key) {
   if (!is.null(value) && length(value) > 0) {
-    paste0(key, ":", value, collapse = " ")
+    paste0(key, ":", "\"", value, "\"", collapse = " ")
   } else {
     NULL
   }
@@ -57,10 +60,14 @@ when_supplied_make_kvp_else_null <- function(value, key) {
 make_query_arg_list <- function(
   repos = NULL,
   search_query = NULL,
+  type = "issue",
+  search_in = c("title", "body"),
   author = NULL,
   involves = NULL,
   is_open = TRUE,
-  query_description = NULL
+  label = NULL,
+  query_description = NULL,
+  extra_params = NULL
 ) {
   as.list(environment())
 }
@@ -84,10 +91,14 @@ make_search_result <- function(
 issue_query <- function(
   repos = NULL,
   search_query = NULL,
+  type = "issue",
+  search_in = c("title", "body"),
   author = NULL,
   involves = NULL,
   is_open = TRUE,
-  query_description = NULL
+  label = NULL,
+  query_description = NULL,
+  extra_params = NULL
 ) {
   call_args <- as.list(environment())
   resolved_repos <- lapply(repos, resolve_repo)
@@ -95,17 +106,22 @@ issue_query <- function(
   repos_kvp <- when_supplied_make_kvp_else_null(resolved_repos, "repo")
   author_kvp <- when_supplied_make_kvp_else_null(author, "author")
   involves_kvp <- when_supplied_make_kvp_else_null(involves, "involves")
+  type_kvp <- when_supplied_make_kvp_else_null(type, "type")
+  in_kvp <- when_supplied_make_kvp_else_null(search_in, "in")
+  label_kvp <- when_supplied_make_kvp_else_null(label, "label")
   is_open_kvp <- is_open_qualifier(is_open)
 
   issue_search_query <-
-    paste(
+      paste(
       search_query,
-      "type:issue",
-      "in:title,body",
       repos_kvp,
       author_kvp,
       involves_kvp,
-      is_open_kvp
+      type_kvp,
+      in_kvp,
+      label_kvp,
+      is_open_kvp,
+      paste(extra_params, collapse = " ")
     )
 
   result <- gh::gh(
@@ -129,50 +145,68 @@ issue_query <- function(
     cache_result()
 }
 
-#' @export 
-repo_issues <- function(repos = NULL, search_query = "", is_open = TRUE) {
-
-  if (is.null(repos)) {
-    repo_remote <- get_repo_remote()
-    if (is.null(repo_remote)) {
+#' @export
+repo_issues <- function(
+  repos = get_repo_remote(),
+  search_query = "",
+  type = "issue",
+  is_open = TRUE,
+  label = NULL
+) {
+    if (is.null(repos)) {
       stop(
         "'repos' was not supplied",
         "and could not be defaulted from current working directory."
       )
     }
-    repos <- repo_remote
-  }
 
   result <- issue_query(
     repos = repos,
     search_query = search_query,
+    type = type,
     is_open = is_open,
+    label = label,
     query_description = glue::glue("repository issues for {paste(repos, collapse = \" \")}")
   ) %>%
     return_search_result()
 }
 
 #' @export
-my_issues <- function(repos = NULL, search_query = "", author = get_gh_user(), is_open = TRUE) {
-
+my_issues <- function(
+  repos = NULL,
+  search_query = "",
+  type = "issue",
+  author = get_gh_user(),
+  is_open = TRUE,
+  label = NULL
+) {
   result <- issue_query(
     repos = repos,
     search_query = search_query,
+    type = type,
     author = author,
     is_open = is_open,
+    label = label,
     query_description = glue::glue("{paste(author, collapse = \" \")} issues")
   ) %>%
     return_search_result()
 }
 
 #' @export
-issues_with_me <- function(repos = NULL, search_query = "", involves = get_gh_user(), is_open = TRUE) {
-
+issues_with_me <- function(
+  repos = NULL,
+  search_query = "",
+  type = "issue",
+  involves = get_gh_user(),
+  is_open = TRUE,
+  label = NULL
+) {
   result <- issue_query(
     repos = repos,
     search_query = search_query,
     involves = involves,
     is_open = is_open,
+    label = label,
     query_description = glue::glue("issues with {paste0(involves)}")
   ) %>%
     return_search_result()
