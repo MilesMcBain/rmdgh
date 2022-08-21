@@ -4,12 +4,12 @@
 \name{issuecreep-package}
 \alias{issuecreep}
 \alias{issuecreep-package}
-\title{issuecreep: What the Package Does (One Line, Title Case)}
+\title{issuecreep: R to GitHub Rmarkdown productivity}
 \description{
 What the package does (one paragraph).
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Miles McBain \email{miles.mcbain@gmail.com} (\href{https://orcid.org/0000-0003-2865-2548}{ORCID})
 
 }
 \keyword{internal}

@@ -219,3 +219,21 @@ return_search_result <- function(result) {
     message("No issue search results.")
   }
 }
+
+#' @export
+issues <- function(
+  repos = NULL,
+  search_query = NULL,
+  type = "issue",
+  search_in = c("title", "body"),
+  author = NULL,
+  involves = NULL,
+  is_open = TRUE,
+  label = NULL,
+  query_description = NULL,
+  extra_params = NULL
+) {
+  issue_args <- as.list(environment())
+  do.call(issue_query, issue_args) %>%
+  return_search_result()
+}
