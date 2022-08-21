@@ -107,7 +107,7 @@ when drafting issues I'll want a reprex, which has to be coded up in R, rendered
 reprex needs to also, and there's awkward iterative back and forth involving context switching
 between applications.
 
-This is exactly the kind of source-output syncronisation and context switching pain that `{knitr}` and `{rmarkdown}` take away. Why wouldn't we draft GitHub issues and comments that mash up code and prose in RMarkdown?!
+This is exactly the kind of source-output synchronisation and context switching pain that `{knitr}` and `{rmarkdown}` take away. Why wouldn't we draft GitHub issues and comments that mash up code and prose in RMarkdown?!
 
 ## Why are you using Rmd instead of Quarto?
 
