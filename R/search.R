@@ -45,7 +45,9 @@ get_repo_remote <- function() {
 }
 
 is_open_qualifier <- function(is_open) {
-  if (is.null(is_open)) return(NULL)
+  if (is.null(is_open)) {
+    return(NULL)
+  }
   if (is_open) "is:open" else "is:closed"
 }
 
@@ -112,7 +114,7 @@ issue_query <- function(
   is_open_kvp <- is_open_qualifier(is_open)
 
   issue_search_query <-
-      paste(
+    paste(
       search_query,
       repos_kvp,
       author_kvp,
@@ -148,68 +150,32 @@ issue_query <- function(
 #' @export
 repo_issues <- function(
   repos = get_repo_remote(),
-  search_query = "",
-  type = "issue",
-  is_open = TRUE,
-  label = NULL
+  ...
 ) {
-    if (is.null(repos)) {
-      stop(
-        "'repos' was not supplied",
-        "and could not be defaulted from current working directory."
-      )
-    }
+  if (is.null(repos)) {
+    stop(
+      "'repos' was not supplied",
+      "and could not be defaulted from current working directory."
+    )
+  }
 
-  result <- issue_query(
-    repos = repos,
-    search_query = search_query,
-    type = type,
-    is_open = is_open,
-    label = label,
-    query_description = glue::glue("repository issues for {paste(repos, collapse = \" \")}")
-  ) %>%
-    return_search_result()
+  issues(repos = repos, ...)
 }
 
 #' @export
 my_issues <- function(
-  repos = NULL,
-  search_query = "",
-  type = "issue",
   author = get_gh_user(),
-  is_open = TRUE,
-  label = NULL
+  ...
 ) {
-  result <- issue_query(
-    repos = repos,
-    search_query = search_query,
-    type = type,
-    author = author,
-    is_open = is_open,
-    label = label,
-    query_description = glue::glue("{paste(author, collapse = \" \")} issues")
-  ) %>%
-    return_search_result()
+  issues(author = author, ...)
 }
 
 #' @export
 issues_with_me <- function(
-  repos = NULL,
-  search_query = "",
-  type = "issue",
   involves = get_gh_user(),
-  is_open = TRUE,
-  label = NULL
+  ...
 ) {
-  result <- issue_query(
-    repos = repos,
-    search_query = search_query,
-    involves = involves,
-    is_open = is_open,
-    label = label,
-    query_description = glue::glue("issues with {paste0(involves)}")
-  ) %>%
-    return_search_result()
+  issues(involves = involves, ...)
 }
 
 return_search_result <- function(result) {
@@ -235,5 +201,5 @@ issues <- function(
 ) {
   issue_args <- as.list(environment())
   do.call(issue_query, issue_args) %>%
-  return_search_result()
+    return_search_result()
 }
