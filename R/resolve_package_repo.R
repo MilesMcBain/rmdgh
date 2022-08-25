@@ -25,7 +25,7 @@ assert_github_exists <- function(repo, issue = NULL) {
       query
     ),
     error = function(e) {
-      stop("could not find repository on GitHub: ", repo)
+      stop("could not find repository on GitHub: ", repo, ".\n{gh} said:\n", e$message)
     }
   )
   invisible(TRUE)
