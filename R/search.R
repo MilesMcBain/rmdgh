@@ -150,6 +150,7 @@ issue_query <- function(
 #' @export
 repo_issues <- function(
   repos = get_repo_remote(),
+  query_description = glue::glue("repository issues for {paste(repos, collapse = \" \")}"),
   ...
 ) {
   if (is.null(repos)) {
@@ -159,23 +160,37 @@ repo_issues <- function(
     )
   }
 
-  issues(repos = repos, ...)
+  issues(
+    repos = repos,
+    query_description = query_description,
+    ...
+  )
 }
 
 #' @export
 my_issues <- function(
   author = get_gh_user(),
+  query_description = glue::glue("{paste(author, collapse = \" \")} issues"),
   ...
 ) {
-  issues(author = author, ...)
+  issues(
+    author = author,
+    query_description = query_description,
+    ...
+  )
 }
 
 #' @export
 issues_with_me <- function(
   involves = get_gh_user(),
+  query_description = glue::glue("issues with {paste0(involves)}"),
   ...
 ) {
-  issues(involves = involves, ...)
+  issues(
+    involves = involves,
+    query_description = query_description,
+    ...
+  )
 }
 
 return_search_result <- function(result) {
