@@ -16,28 +16,6 @@ is_qualified_repo_name <- function(repo) {
   grepl("^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$", repo)
 }
 
-assert_github_exists <- function(repo, issue = NULL) {
-  gh_issue <- glue::glue("/issues/{issue}")
-  gh_repo <- glue::glue("/repos/{repo}")
-  query <- paste0(gh_repo, gh_issue, collapse = "")
-  tryCatch(
-    gh::gh(
-      query
-    ),
-    error = function(e) {
-      stop("could not find repository on GitHub: ", repo, ".\n{gh} said:\n", e$message)
-    }
-  )
-  invisible(TRUE)
-}
-
-assert_CRAN_page_exists <- function(repo) {
-  # I tried to make this a HEAD request but the CRAN server doesn't seem to respond to
-  # HEAD correctly.
-  res <- curl::curl_fetch_memory(cran_url(repo))
-
-  if (res$status_code != 200) stop(repo, " is not installed locally, and could not be located on CRAN")
-}
 
 is_r_package_installed_locally <- function(package) {
   tryCatch(

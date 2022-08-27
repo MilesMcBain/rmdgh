@@ -1,5 +1,6 @@
 get_search_results_from_yaml <- function() {
   active_doc <- rstudioapi::getSourceEditorContext()
+  assert_is_rmd(active_doc)
 
   doc_yaml <- rmarkdown::yaml_front_matter(active_doc$path)
   if (length(doc_yaml) == 0) stop("Found no yaml front matter in the current document.")
@@ -15,7 +16,7 @@ get_search_results_from_yaml <- function() {
 
 #' @export
 issue_search_results_forward <- function() {
-  
+
   issue_search_results <- get_search_results_from_yaml()
 
   if (issue_search_results$current_page == issue_search_results$max_page) {
@@ -34,9 +35,9 @@ issue_search_results_forward <- function() {
     max_page = issue_search_results$max_page,
     cache_key = issue_search_results$cache_key
   ) %>%
-  update_cached_result(key = issue_search_results$cache_key) %>%
-  display_issue_search_results()
-  
+    update_cached_result(key = issue_search_results$cache_key) %>%
+    display_issue_search_results()
+
 }
 
 #' @export
@@ -60,15 +61,15 @@ issue_search_results_backward <- function() {
     max_page = issue_search_results$max_page,
     cache_key = issue_search_results$cache_key
   ) %>%
-  update_cached_result(key = issue_search_results$cache_key) %>%
-  display_issue_search_results()
+    update_cached_result(key = issue_search_results$cache_key) %>%
+    display_issue_search_results()
 }
 
 #' @export
 issue_search_results_expand <- function() {
   matching_issue <- get_issue_from_cursor_context()
   render_issue_body(matching_issue) %>%
-  insert_text_below_cursor_line()
+    insert_text_below_cursor_line()
 }
 
 issue_search_results_collapse <- function() {}
@@ -82,6 +83,50 @@ jump_to_issue_thread <- function() {
 }
 
 #' @export
+refresh_issue_thread <- function() {
+  document_context <- rstudioapi::getActiveDocumentContext()
+  assert_is_rmd(document_context)
+  issue_yaml <- rmarkdown::yaml_front_matter(document_context$path)
+  assert_github_issue(issue_yaml)
+
+  github_issue <- issue_yaml$output[[1]]
+  main_issue <-
+    gh::gh(
+      glue::glue("/repos/{github_issue$repo}/issues/{github_issue$number}")
+    )
+  issue_comments <-
+    gh::gh(
+      glue::glue("/repos/{github_issue$repo}/issues/{github_issue$number}/comments")
+    ) %>%
+    extract_comments()
+
+  issue_thread <-
+  structure(
+    list(
+      title = main_issue$title,
+      author = main_issue$user$login,
+      repo = github_issue$repo,
+      number = main_issue$number,
+      thread =
+        c(
+          list(
+            list(
+              author = main_issue$user$login,
+              created_at = main_issue$created_at,
+              body = main_issue$body
+            )
+            ),
+            issue_comments
+        )
+    ),
+    class = "issue_thread"
+  )
+
+  replace_issue_thread(issue_thread, document_context)
+
+}
+
+#' @export
 jump_to_issue_webpage <- function() {
   document_context <- rstudioapi::getActiveDocumentContext()
   shortcode <- match_shortcode(document_context)
@@ -90,28 +135,32 @@ jump_to_issue_webpage <- function() {
 }
 
 match_shortcode <- function(document_context) {
-  content_line <- 
+  content_line <-
     atcursor::get_cursor_line(document_context)
 
   cursor_col <-
     atcursor::get_cursor_col(rstudioapi::primary_selection(document_context))
-  
+
   match <- forward_match_shortcode(content_line, cursor_col)
-  
+
   match
 }
 
 forward_match_shortcode <- function(content, position) {
   match <- gregexec("`[a-z]{2}\\s[A-Za-z0-9_./-]+#[0-9]+`", content)[[1]]
 
-  if (all(match < 0)) return(NULL)
+  if (all(match < 0)) {
+    return(NULL)
+  }
 
   match_starts <- match
   match_ends <- match_starts + attr(match, "match.length") - 1 # need to include first character at match start
   shortcode_start <- match[!(match_ends < position)]
   shortcode_end <- match_ends[!(match_ends < position)]
-  
-  if (length(shortcode_start) == 0) return(NULL) # no matches ahead of cursor
+
+  if (length(shortcode_start) == 0) {
+    return(NULL)
+  } # no matches ahead of cursor
 
   substr(content, shortcode_start[[1]], shortcode_end[[1]])
 }
@@ -151,7 +200,7 @@ get_issue_from_cursor_context <- function() {
   }
 
   issue_url <- make_issue_url(shortcode)
-  
+
   issue_search_results <- get_search_results_from_yaml()
 
   search_result_urls <- vapply(
@@ -160,7 +209,7 @@ get_issue_from_cursor_context <- function() {
     character(1)
   )
 
-  matching_issue <- 
+  matching_issue <-
     issue_search_results$issues[search_result_urls == issue_url][[1]]
 
   matching_issue
