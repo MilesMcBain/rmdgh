@@ -90,37 +90,14 @@ refresh_issue_thread <- function() {
   assert_github_issue(issue_yaml)
 
   github_issue <- issue_yaml$output[[1]]
-  main_issue <-
+  issue <-
     gh::gh(
       glue::glue("/repos/{github_issue$repo}/issues/{github_issue$number}")
     )
-  issue_comments <-
-    gh::gh(
-      glue::glue("/repos/{github_issue$repo}/issues/{github_issue$number}/comments")
-    ) %>%
-    extract_comments()
-
-  issue_thread <-
-  structure(
-    list(
-      title = main_issue$title,
-      author = main_issue$user$login,
-      repo = github_issue$repo,
-      number = main_issue$number,
-      thread =
-        c(
-          list(
-            list(
-              author = main_issue$user$login,
-              created_at = main_issue$created_at,
-              body = main_issue$body
-            )
-            ),
-            issue_comments
-        )
-    ),
-    class = "issue_thread"
-  )
+  issue_thread <- 
+    get_issue_thread(
+      extract_issues(issue)
+    )
 
   replace_issue_thread(issue_thread, document_context)
 

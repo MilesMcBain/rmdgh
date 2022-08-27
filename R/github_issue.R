@@ -3,6 +3,7 @@
 github_issue <- function(
   repo,
   number = NULL,
+  labels = NULL,
   action = "create", # create | update | comment
   draft = TRUE,
   close_with_comment = FALSE,
@@ -97,6 +98,7 @@ github_issue <- function(
         repo = repo,
         title = metadata$title,
         body = issue_body,
+        labels = labels,
         draft = draft
       ),
       comment = github_comment_submit(
@@ -110,6 +112,7 @@ github_issue <- function(
         number = number,
         title = metadata$title,
         body = issue_body,
+        labels = labels,
         draft = draft
       ),
       stop("Unknown issue action: ", action)
@@ -150,6 +153,7 @@ github_issue_submit <- function(
   repo,
   title,
   body,
+  labels,
   draft = FALSE
 ) {
 
@@ -163,14 +167,25 @@ github_issue_submit <- function(
 
   res <- gh::gh(
     query,
-    title = title,
-    body = body
+    encode_issue_json(
+      title = title,
+      body = body,
+      labels = labels
+    ),
+    .send_headers = c(
+      Accept = "application/vnd.github.switcheroo-preview+json",
+      "Content-Type" = "application/json"
+    ) # because using manual JSON encoding so labels is always an array.
   )
 
   message("\nGitHub issue created. See ", res$html_url)
 }
 
 github_comment_submit <- function(repo, number, body, draft = FALSE) {
+  assertthat::assert_that(
+    nzchar(body),
+    msg = "Cannot submit an empty issue comment."
+  )
   query <-
     glue::glue("POST /repos/{repo}/issues/{number}/comments")
 
@@ -187,7 +202,7 @@ github_comment_submit <- function(repo, number, body, draft = FALSE) {
   message("\nGitHub issue comment submitted. See ", res$html_url)
 }
 
-github_update_submit <- function(repo, number, title, body, draft = FALSE) {
+github_update_submit <- function(repo, number, title, body, labels, draft = FALSE) {
 
   query <- glue::glue("PATCH /repos/{repo}/issues/{number}")
 
@@ -196,10 +211,18 @@ github_update_submit <- function(repo, number, title, body, draft = FALSE) {
     return(invisible(NULL))
   }
 
+
   res <- gh::gh(
     query,
-    title = title,
-    body = body
+    encode_issue_json(
+      title = title,
+      body = body,
+      labels = labels
+    ),
+    .send_headers = c(
+      Accept = "application/vnd.github.switcheroo-preview+json",
+      "Content-Type" = "application/json"
+    ) # because using manual JSON encoding so labels is always an array.
   )
 
   message("\nGitHub issue update submitted. See ", res$html_url)
@@ -263,7 +286,7 @@ get_output_lines_for_update <- function(input_lines, author) {
   }
 
   body_lines[-seq(footer_line)] %>%
-  trim_leading_and_trailing_blanks()
+    trim_leading_and_trailing_blanks()
 
 }
 
@@ -275,5 +298,16 @@ trim_leading_and_trailing_blanks <- function(text_lines) {
   line_mask[length(text_lines)] <- TRUE
   lines_to_drop <- (text_lines == "") & line_mask
 
-  text_lines[!lines_to_drop] 
+  text_lines[!lines_to_drop]
+}
+
+encode_issue_json <- function(title, body, labels) {
+  jsonlite::toJSON(
+    list(
+      title = jsonlite::unbox(title),
+      body = jsonlite::unbox(body),
+      labels = labels # this always needs to be an array (boxed)
+    )
+  ) %>%
+    charToRaw()
 }

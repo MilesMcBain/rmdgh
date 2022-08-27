@@ -86,3 +86,145 @@ res <- gh::gh(
   )
 
 ```
+
+# Harmonising extract_issues
+
+It would be good if extract_issues could work the same on search results and an
+individual issue API response.
+
+search_results look like this:
+
+```
+{
+  "total_count": 5,
+  "incomplete_results": false,
+  "items": [
+    {
+      "url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13",
+      "repository_url": "https://api.github.com/repos/MilesMcBain/issuecreep",
+      "labels_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13/labels{/name}",
+      "comments_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13/comments",
+      "events_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13/events",
+      "html_url": "https://github.com/MilesMcBain/issuecreep/issues/13",
+      "id": 1346311357,
+      "node_id": "I_kwDOHZOUYc5QPxS9",
+      "number": 13,
+      "title": "Jump and expand for local repo issue references",
+      "user": {
+        "login": "MilesMcBain",
+        "id": 9996346,
+        "node_id": "MDQ6VXNlcjk5OTYzNDY=",
+        "avatar_url": "https://avatars.githubusercontent.com/u/9996346?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/MilesMcBain",
+        "html_url": "https://github.com/MilesMcBain",
+        "followers_url": "https://api.github.com/users/MilesMcBain/followers",
+        "following_url": "https://api.github.com/users/MilesMcBain/following{/other_user}",
+        "gists_url": "https://api.github.com/users/MilesMcBain/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/MilesMcBain/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/MilesMcBain/subscriptions",
+        "organizations_url": "https://api.github.com/users/MilesMcBain/orgs",
+        "repos_url": "https://api.github.com/users/MilesMcBain/repos",
+        "events_url": "https://api.github.com/users/MilesMcBain/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/MilesMcBain/received_events",
+        "type": "User",
+        "site_admin": false
+      },
+      "labels": [],
+      "state": "open",
+      "locked": false,
+      "assignee": {},
+      "assignees": [],
+      "milestone": {},
+      "comments": 0,
+      "created_at": "2022-08-22T12:19:01Z",
+      "updated_at": "2022-08-22T12:19:01Z",
+      "closed_at": {},
+      "author_association": "OWNER",
+      "active_lock_reason": {},
+      "body": "\nIt would be cool to have the jump and expand navigation options work for regular\nissue references. eg: `#123`. In this case the repo context would have to be\nretrieved from the yaml. Not too hard to do.",
+      "reactions": {
+        "url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13/reactions",
+        "total_count": 0,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 0
+      },
+      "timeline_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13/timeline",
+      "performed_via_github_app": {},
+      "state_reason": {},
+      "score": 1
+    },
+```
+
+an isssue lookes like this:
+
+```
+{
+  "url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11",
+  "repository_url": "https://api.github.com/repos/MilesMcBain/issuecreep",
+  "labels_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11/labels{/name}",
+  "comments_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11/comments",
+  "events_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11/events",
+  "html_url": "https://github.com/MilesMcBain/issuecreep/issues/11",
+  "id": 1345457004,
+  "node_id": "I_kwDOHZOUYc5QMgts",
+  "number": 11,
+  "title": "Ability to add labels in Rmd and filter on them in search",
+  "user": {
+    "login": "MilesMcBain",
+    "id": 9996346,
+    "node_id": "MDQ6VXNlcjk5OTYzNDY=",
+    "avatar_url": "https://avatars.githubusercontent.com/u/9996346?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/MilesMcBain",
+    "html_url": "https://github.com/MilesMcBain",
+    "followers_url": "https://api.github.com/users/MilesMcBain/followers",
+    "following_url": "https://api.github.com/users/MilesMcBain/following{/other_user}",
+    "gists_url": "https://api.github.com/users/MilesMcBain/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/MilesMcBain/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/MilesMcBain/subscriptions",
+    "organizations_url": "https://api.github.com/users/MilesMcBain/orgs",
+    "repos_url": "https://api.github.com/users/MilesMcBain/repos",
+    "events_url": "https://api.github.com/users/MilesMcBain/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/MilesMcBain/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "labels": [],
+  "state": "open",
+  "locked": false,
+  "assignee": {},
+  "assignees": [],
+  "milestone": {},
+  "comments": 0,
+  "created_at": "2022-08-21T11:11:36Z",
+  "updated_at": "2022-08-21T11:47:55Z",
+  "closed_at": {},
+  "author_association": "OWNER",
+  "active_lock_reason": {},
+  "body": {},
+  "closed_by": {},
+  "reactions": {
+    "url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11/reactions",
+    "total_count": 0,
+    "+1": 0,
+    "-1": 0,
+    "laugh": 0,
+    "hooray": 0,
+    "confused": 0,
+    "heart": 0,
+    "rocket": 0,
+    "eyes": 0
+  },
+  "timeline_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11/timeline",
+  "performed_via_github_app": {},
+  "state_reason": {}
+} 
+
+```

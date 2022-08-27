@@ -5,7 +5,6 @@ issue_thread_filename <- function(issue_thread) {
 }
 
 render_issue_thread_front_matter <- function(issue_thread) {
-
   front_matter_data <-
     list(
       title = issue_thread$title,
@@ -13,6 +12,7 @@ render_issue_thread_front_matter <- function(issue_thread) {
       output = list(`issuecreep::github_issue` = list(
         repo = issue_thread$repo,
         number = issue_thread$number,
+        labels = issue_thread$labels,
         action = "comment",
         draft = TRUE,
         close_with_comment = FALSE
@@ -137,5 +137,12 @@ replace_issue_thread <- function(issue_thread, document_context) {
     render_issue_thread_document(issue_thread),
     id = document_context$id
   )
+
+}
+
+construct_issue_thread <- function(
+  issue,
+  issue_comments
+) {
 
 }

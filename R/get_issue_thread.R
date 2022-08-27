@@ -17,6 +17,7 @@ get_issue_thread <- function(matching_issue) {
       author = matching_issue$author,
       repo = matching_issue$repo,
       number = matching_issue$number,
+      labels = matching_issue$labels,
       thread =
         c(
           list(initial_comment),
