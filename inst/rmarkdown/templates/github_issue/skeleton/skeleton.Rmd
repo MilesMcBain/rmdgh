@@ -4,6 +4,7 @@ author: "`r issuecreep::get_gh_user()`"
 output: 
   issuecreep::github_issue:
     repo: milesmcbain/issuecreep
+    labels: ~
     action: create
     draft: yes
 ---

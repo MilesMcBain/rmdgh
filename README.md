@@ -47,6 +47,8 @@ Probably bind these to keys.
   - Search as per 'expand', but go to the issue thread rendered as an Rmd document. You can submit updates to the issue, comments to the thread, or close the issue.
 - `jump_to_issue_webpage()` 
   - Search as per `expand`, but go to the issue thread on GitHub
+- `refresh_issue_thread()`
+  - refresh the issue thread referred to by the current Rmd.
 
 ## GitHub issue thread RMarkdown output
 
@@ -66,6 +68,7 @@ output:
   issuecreep::github_issue:
     repo: MilesMcBain/issuecreep
     number: 8
+    labels: ~
     action: comment
     draft: no
     close_with_comment: no
@@ -75,6 +78,7 @@ output:
   - `action` is one of 'create', 'update', 'comment'
     - `number` is only valid with 'update' or 'comment'
     - `action: update` lets you update the issue title and body. Comments cannot be updated.
+  - `labels` can be a single label or yaml list of labels. Only used on 'create' and 'update'.
 
 ### Commenting on Issues
 
