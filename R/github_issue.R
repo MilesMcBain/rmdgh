@@ -306,7 +306,7 @@ encode_issue_json <- function(title, body, labels) {
     list(
       title = jsonlite::unbox(title),
       body = jsonlite::unbox(body),
-      labels = labels # this always needs to be an array (boxed)
+      labels = labels %||% character(0) # this always needs to be an array (boxed)
     )
   ) %>%
     charToRaw()
