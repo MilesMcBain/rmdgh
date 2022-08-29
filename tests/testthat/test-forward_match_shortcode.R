@@ -1,4 +1,4 @@
-test_that("forward_match_shortcode", {
+test_that("forward match shortcode and hashref", {
 
   no_match <- "something else"
 

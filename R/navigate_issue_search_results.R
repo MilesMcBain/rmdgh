@@ -77,6 +77,7 @@ issue_search_results_collapse <- function() {}
 #' @export
 jump_to_issue_thread <- function() {
   matching_issue <- get_issue_from_cursor_context()
+  
   issue_thread <- get_issue_thread(matching_issue)
 
   display_issue_thread(issue_thread)
@@ -106,25 +107,27 @@ refresh_issue_thread <- function() {
 #' @export
 jump_to_issue_webpage <- function() {
   document_context <- rstudioapi::getActiveDocumentContext()
-  shortcode <- match_shortcode(document_context)
+  reference <- match_issue_reference(document_context)
   issue_url <- make_issue_url(shortcode)
   browseURL(issue_url)
 }
 
-match_shortcode <- function(document_context) {
+match_issue_reference <- function(document_context) {
   content_line <-
     atcursor::get_cursor_line(document_context)
 
   cursor_col <-
     atcursor::get_cursor_col(rstudioapi::primary_selection(document_context))
 
-  match <- forward_match_shortcode(content_line, cursor_col)
+  match <- 
+    forward_match_shortcode(content_line, cursor_col) %||%
+    forward_match_hashref(content_line, cursor_col)
 
   match
 }
 
-forward_match_shortcode <- function(content, position) {
-  match <- gregexec("`[a-z]{2}\\s[A-Za-z0-9_./-]+#[0-9]+`", content)[[1]]
+forward_match_regex <- function(content, position, regex) {
+  match <- gregexec(regex, content)[[1]]
 
   if (all(match < 0)) {
     return(NULL)
@@ -142,41 +145,40 @@ forward_match_shortcode <- function(content, position) {
   substr(content, shortcode_start[[1]], shortcode_end[[1]])
 }
 
-make_issue_url <- function(shortcode) {
-  service <- regmatches(
-    shortcode,
-    regexpr("(?<=`)[a-z]{2}", shortcode, perl = TRUE)
-  )
+forward_match_shortcode <- function(content, position) {
+  match <- forward_match_regex(content, position, "`[a-z]{2}\\s[A-Za-z0-9_./-]+#[0-9]+`")
 
-  repo <- regmatches(
-    shortcode,
-    regexpr("(?<=\\s)[A-Za-z0-9_./-]+", shortcode, perl = TRUE)
-  )
+  if (is.null(match)) return(match)
 
-  issue_number <- regmatches(
-    shortcode,
-    regexpr("(?<=#)[0-9]+", shortcode, perl = TRUE)
+  structure(
+    match,
+    class = "shortcode"
   )
+}
 
-  switch(
-    service,
-    gh = glue::glue("https://github.com/{repo}/issues/{issue_number}"),
-    stop("unknown shortcode service: ", service)
+forward_match_hashref <- function(content, position) {
+  match <- forward_match_regex(content, position, "#[0-9]+\\b")
+  
+  if (is.null(match)) return(match)
+
+  structure(
+    match,
+    class = "hashref"
   )
-
+  
 }
 
 get_issue_from_cursor_context <- function() {
   document_context <- rstudioapi::getActiveDocumentContext()
 
-  shortcode <- match_shortcode(document_context)
+  reference <- match_issue_reference(document_context)
 
-  if (length(shortcode) == 0) {
+  if (length(reference) == 0) {
     message("the cursor is not on or ahead of an issue code.")
     return(invisible(NULL))
   }
 
-  issue_url <- make_issue_url(shortcode)
+  issue_url <- make_issue_url(reference)
 
   issue_search_results <- get_search_results_from_yaml()
 
