@@ -173,6 +173,21 @@ repo_issues <- function(
   )
 }
 
+
+#' @export
+repo_prs <- function(
+  repos = get_repo_remote(),
+  query_description = glue::glue("repository PRs for {paste(repos, collapse = \" \")}"),
+  ...
+) {
+  repo_issues(
+    repos = repos,
+    query_description = query_description,
+    type = "pr",
+    ...
+  )
+}
+
 #' @export
 my_issues <- function(
   author = get_gh_user(),
@@ -205,6 +220,21 @@ return_search_result <- function(result) {
   } else {
     message("No issue search results.")
   }
+}
+
+#' @export
+my_prs <- function(
+  author = get_gh_user(),
+  type = "pr",
+  query_description = glue::glue("PRs by {paste0(author)}"),
+  ...
+) {
+  issues(
+    author = author,
+    type = type,
+    query_description = query_description,
+    ...
+  )
 }
 
 #' @export

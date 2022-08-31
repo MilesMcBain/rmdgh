@@ -19,7 +19,11 @@ remotes::install_github("MilesMcBain/issuecreep")
 
 - `my_issues()` issues by author (defaults to you)
 - `issues_with_me()` issues referring to author (defaults to you)
+- `issues_for_me()` issues created on an author's repositories (defaults to you)
 - `repo_issues()` issues for a given repo or repos (defaults to current repo)
+- `prs_with_me()` pr threads referring to author (defaults to you)
+- `prs_for_me()` pr threads for author's issues (defaults to you)
+- `repo_prs()` prs for a given repo or repos (defaults to current repo)
 
 You can change who 'me' or 'my' is. It defaults to you but if you do:
 
