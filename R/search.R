@@ -252,7 +252,7 @@ issues_for_me <- function (
 
 gh_for_me <- function (
   user = get_gh_user(),
-  type = c("issue","pr"),
+  type = NULL,
   query_description = glue::glue("Issues and PRs for {paste0(user)}"),
   extra_params = glue::glue("user:{user}"),
   ...
