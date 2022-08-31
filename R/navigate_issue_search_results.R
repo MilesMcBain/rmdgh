@@ -171,3 +171,18 @@ get_issue_from_cursor_context <- function() {
   matching_issue <- get_maybe_cached_issue(document_context, issue_info)
 
 }
+
+get_search_results_from_yaml <- function() {
+  active_doc <- rstudioapi::getSourceEditorContext()
+
+  doc_yaml <- rmarkdown::yaml_front_matter(active_doc$path)
+  if (length(doc_yaml) == 0) stop("Found no yaml front matter in the current document.")
+
+  search_cache_key <- doc_yaml$cache_key
+  if (is.null(search_cache_key)) stop("Found no cache_key in the document yaml front matter.")
+
+  issue_search_results <- get_cached_result(search_cache_key)
+  if (is.null(issue_search_results)) stop("cache_key matched no search results - they're probably expired. Search again!")
+
+  issue_search_results
+}
