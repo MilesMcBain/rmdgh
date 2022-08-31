@@ -37,6 +37,17 @@ And you'll get Hadley's issues for `{dplyr}`.
 
 `repos` accepts multiple repos.
 
+### Search with text queries
+
+All search operations support `search_query` which is text to search in the title and body of issues to filter search results. You can use this to find issues relating to problems you may be having. e.g.:
+
+```r
+repo_issues(
+  repos = "rdatatable/data.table", 
+  search_query = "names(DT) reference semantics"
+  )
+```
+
 ## Navigation Operations
 
 Probably bind these to keys.
