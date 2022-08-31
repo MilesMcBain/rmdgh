@@ -90,10 +90,8 @@ refresh_issue_thread <- function() {
 
 #' @export
 jump_to_issue_webpage <- function() {
-  document_context <- rstudioapi::getActiveDocumentContext()
-  reference <- match_issue_reference(document_context)
-  issue_url <- make_issue_url(shortcode)
-  browseURL(issue_url)
+  issue <- get_issue_from_cursor_context()
+  browseURL(issue$html_url)
 }
 
 match_issue_reference <- function(document_context) {
