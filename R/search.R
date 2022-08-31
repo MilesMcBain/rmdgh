@@ -69,6 +69,7 @@ make_query_arg_list <- function(
   is_open = TRUE,
   label = NULL,
   query_description = NULL,
+  order = "desc",
   extra_params = NULL
 ) {
   as.list(environment())
@@ -100,6 +101,7 @@ issue_query <- function(
   is_open = TRUE,
   label = NULL,
   query_description = NULL,
+  order = "desc",
   extra_params = NULL
 ) {
   call_args <- as.list(environment())
@@ -137,7 +139,7 @@ issue_query <- function(
     ),
     per_page = getOption("issue_search_results_per_page", 30),
     sort = "updated",
-    order = "desc"
+    order = order
   )
 
   make_search_result(
@@ -279,6 +281,7 @@ issues <- function(
   is_open = TRUE,
   label = NULL,
   query_description = NULL,
+  order = "desc",
   extra_params = NULL
 ) {
   issue_args <- as.list(environment())
