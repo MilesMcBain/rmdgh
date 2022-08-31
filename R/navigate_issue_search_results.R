@@ -1,18 +1,3 @@
-get_search_results_from_yaml <- function() {
-  active_doc <- rstudioapi::getSourceEditorContext()
-  assert_is_rmd(active_doc)
-
-  doc_yaml <- rmarkdown::yaml_front_matter(active_doc$path)
-  if (length(doc_yaml) == 0) stop("Found no yaml front matter in the current document.")
-
-  search_cache_key <- doc_yaml$cache_key
-  if (is.null(search_cache_key)) stop("Found no cache_key in the document yaml front matter.")
-
-  issue_search_results <- get_cached_result(search_cache_key)
-  if (is.null(issue_search_results)) stop("cache_key matched no search results - they're probably expired. Search again!")
-
-  issue_search_results
-}
 
 #' @export
 issue_search_results_forward <- function() {
@@ -77,7 +62,6 @@ issue_search_results_collapse <- function() {}
 #' @export
 jump_to_issue_thread <- function() {
   matching_issue <- get_issue_from_cursor_context()
-  
   issue_thread <- get_issue_thread(matching_issue)
 
   display_issue_thread(issue_thread)
@@ -92,10 +76,10 @@ refresh_issue_thread <- function() {
 
   github_issue <- issue_yaml$output[[1]]
   issue <-
-    gh::gh(
-      glue::glue("/repos/{github_issue$repo}/issues/{github_issue$number}")
+   gh::gh(
+      api_issue_query(repo = github_issue$repo, number = github_issue$number)
     )
-  issue_thread <- 
+  issue_thread <-
     get_issue_thread(
       extract_issues(issue)
     )
@@ -119,7 +103,7 @@ match_issue_reference <- function(document_context) {
   cursor_col <-
     atcursor::get_cursor_col(rstudioapi::primary_selection(document_context))
 
-  match <- 
+  match <-
     forward_match_shortcode(content_line, cursor_col) %||%
     forward_match_hashref(content_line, cursor_col)
 
@@ -148,7 +132,9 @@ forward_match_regex <- function(content, position, regex) {
 forward_match_shortcode <- function(content, position) {
   match <- forward_match_regex(content, position, "`[a-z]{2}\\s[A-Za-z0-9_./-]+#[0-9]+`")
 
-  if (is.null(match)) return(match)
+  if (is.null(match)) {
+    return(match)
+  }
 
   structure(
     match,
@@ -158,14 +144,16 @@ forward_match_shortcode <- function(content, position) {
 
 forward_match_hashref <- function(content, position) {
   match <- forward_match_regex(content, position, "#[0-9]+\\b")
-  
-  if (is.null(match)) return(match)
+
+  if (is.null(match)) {
+    return(match)
+  }
 
   structure(
     match,
     class = "hashref"
   )
-  
+
 }
 
 get_issue_from_cursor_context <- function() {
@@ -178,18 +166,8 @@ get_issue_from_cursor_context <- function() {
     return(invisible(NULL))
   }
 
-  issue_url <- make_issue_url(reference)
+  issue_info <- make_issue_info(reference, document_context)
 
-  issue_search_results <- get_search_results_from_yaml()
+  matching_issue <- get_maybe_cached_issue(document_context, issue_info)
 
-  search_result_urls <- vapply(
-    issue_search_results$issues,
-    function(issue) issue$html_url,
-    character(1)
-  )
-
-  matching_issue <-
-    issue_search_results$issues[search_result_urls == issue_url][[1]]
-
-  matching_issue
 }

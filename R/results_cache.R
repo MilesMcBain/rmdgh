@@ -15,8 +15,12 @@ update_cached_result <- function(gh_result_object, key) {
 }
 
 get_cached_result <- function(key) {
-  get(key, envir = RESULTS_CACHE)
+  tryCatch(
+    get(key, envir = RESULTS_CACHE),
+    error = function(e) NULL
+  )
 }
+
 
 clear_results_cache <- function() {
   rm(list = ls(RESULTS_CACHE), envir = RESULTS_CACHE)

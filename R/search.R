@@ -104,6 +104,10 @@ issue_query <- function(
 ) {
   call_args <- as.list(environment())
   resolved_repos <- lapply(repos, resolve_repo)
+  
+  if (!is.null(repos)) {
+    call_args$repos <- resolved_repos
+  }
 
   repos_kvp <- when_supplied_make_kvp_else_null(resolved_repos, "repo")
   author_kvp <- when_supplied_make_kvp_else_null(author, "author")

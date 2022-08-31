@@ -36,3 +36,7 @@ flatten_char <- function(char_vec) {
 }
 
 `%||%` <- function(lhs, rhs) if (is.null(lhs)) rhs else lhs
+
+api_issue_query <- function(repo, number) {
+  glue::glue("/repos/{repo}/issues/{number}")
+}

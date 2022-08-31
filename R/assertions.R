@@ -23,7 +23,7 @@ assert_CRAN_page_exists <- function(repo) {
 
 assert_is_rmd <- function(document_context) {
   document_extension <- fs::path_ext(document_context$path)
-  assertthat::assert_that(document_extension == "Rmd")
+  assertthat::assert_that(document_extension %in% c("Rmd", "Qmd"))
 }
 
 assert_github_issue <- function(issue_yaml) {
