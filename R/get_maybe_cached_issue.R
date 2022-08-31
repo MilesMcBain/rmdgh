@@ -28,12 +28,12 @@ get_issue_from_cached_search_results <- function(doc_yaml, issue_info) {
 
   search_result_urls <- vapply(
     issue_search_results$issues,
-    function(issue) issue$html_url,
+    function(issue) issue$api_url,
     character(1)
   )
 
   matching_issue <-
-    issue_search_results$issues[search_result_urls == issue_info$html_url][[1]]
+    issue_search_results$issues[search_result_urls == issue_info$api_url][[1]]
 
   matching_issue
 }

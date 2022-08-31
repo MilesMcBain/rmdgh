@@ -17,9 +17,9 @@ make_issue_info.shortcode <- function(shortcode, ...) {
     regexpr("(?<=#)[0-9]+", shortcode, perl = TRUE)
   )
 
-  html_url <- switch(
+  api_url <- switch(
     service,
-    gh = glue::glue("https://github.com/{repo}/issues/{issue_number}"),
+    gh = glue::glue("https://api.github.com/repos/{repo}/issues/{issue_number}"),
     stop("unknown shortcode service: ", service)
   )
 
@@ -27,7 +27,7 @@ make_issue_info.shortcode <- function(shortcode, ...) {
     list(
       repo = repo,
       number = issue_number,
-      html_url = html_url
+      api_url = api_url
     ),
     class = "issue_info"
   )
@@ -46,15 +46,15 @@ make_issue_info.hashref <- function(hashref, document_context) {
   
   assert_github_exists(repo, issue = issue_number)
   
-  html_url <- glue::glue(
-    "https://github.com/{repo}/issues/{issue_number}"
+  api_url <- glue::glue(
+    "https://api.github.com/repos/{repo}/issues/{issue_number}"
   )
 
   structure(
     list(
       repo = repo,
       number = issue_number,
-      html_url = html_url
+      api_url = api_url
     ),
     class = "issue_info"
   )

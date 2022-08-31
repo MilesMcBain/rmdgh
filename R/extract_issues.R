@@ -50,7 +50,8 @@ make_issue <- function(issue) {
       html_url = issue$html_url,
       labels = extract_labels_gh(issue$labels),
       author = issue$user$login,
-      created_at = issue$created_at
+      created_at = issue$created_at,
+      type = if ("pull_request" %in% names(issue)) "pr" else "issue"
     ),
     class = "issue"
   )

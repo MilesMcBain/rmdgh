@@ -205,6 +205,67 @@ return_search_result <- function(result) {
   }
 }
 
+prs_with_me <- function(
+  involves = get_gh_user(),
+  type = "pr",
+  query_description = glue::glue("PRs with {paste0(involves)}"),
+  ...
+) {
+  issues(
+    involves = involves,
+    type = type,
+    query_description = query_description,
+    ...
+  )
+}
+
+prs_for_me <- function(
+  user = get_gh_user(),
+  type = "pr",
+  query_description = glue::glue("PRs for {paste0(user)}"),
+  extra_params = glue::glue("user:{user}"),
+  ...
+) {
+  issues(
+    type = type,
+    query_description = query_description,
+    extra_params = extra_params,
+    ...
+  )
+} 
+
+issues_for_me <- function (
+  user = get_gh_user(),
+  type = "issue",
+  query_description = glue::glue("Issues for {paste0(user)}"),
+  extra_params = glue::glue("user:{user}"),
+  ...
+) {
+  issues(
+    type = type,
+    query_description = query_description,
+    extra_params = extra_params,
+    ...
+  )
+} 
+
+
+gh_for_me <- function (
+  user = get_gh_user(),
+  type = c("issue","pr"),
+  query_description = glue::glue("Issues and PRs for {paste0(user)}"),
+  extra_params = glue::glue("user:{user}"),
+  ...
+) {
+  issues(
+    type = type,
+    query_description = query_description,
+    extra_params = extra_params,
+    ...
+  )
+} 
+
+
 #' @export
 issues <- function(
   repos = NULL,

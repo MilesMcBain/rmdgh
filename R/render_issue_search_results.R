@@ -6,7 +6,8 @@ render_issue_search_results <- function(issue_search_results) {
 }
 
 render_issue_one_line_description <- function(issue) {
-  glue::glue("{issue$title} ",
+  glue::glue(ifelse(issue$type == "pr", "(PR) ", ""),
+             "{issue$title} ",
              render_issue_shortcode(issue),
              " {paste0(issue$labels, collapse = \", \")}") %>%
              trimws()
