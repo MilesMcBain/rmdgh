@@ -207,6 +207,7 @@ return_search_result <- function(result) {
   }
 }
 
+#' @export
 prs_with_me <- function(
   involves = get_gh_user(),
   type = "pr",
