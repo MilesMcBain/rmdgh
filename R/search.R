@@ -219,6 +219,7 @@ prs_with_me <- function(
   )
 }
 
+#' @export
 prs_for_me <- function(
   user = get_gh_user(),
   type = "pr",
@@ -234,6 +235,7 @@ prs_for_me <- function(
   )
 } 
 
+#' @export
 issues_for_me <- function (
   user = get_gh_user(),
   type = "issue",
@@ -249,7 +251,7 @@ issues_for_me <- function (
   )
 } 
 
-
+#' @export
 gh_for_me <- function (
   user = get_gh_user(),
   type = NULL,
