@@ -1,19 +1,20 @@
 
 # issuecreep
 
-SUPER EXPERIMENTAL PROBABLY DON'T USE YET BUT GO FOR IT IF YOU'RE BRAVE OR NICK TIERNEY.
+What if there exists an alternate timeline where (R)markdown is their HTML? 
 
-A work-in-progress R <-> GitHub productivity tool powered by RMarkdown.
+Imagine the overbearing richness of the modern web pared back to glorious
+responsive plain text interfaces... And how the inhabitants of this brave world would
+interact with their favourite centralised decentralised version control
+repository?
 
-Works in VSCode or RStudio via `{rstudioapi}`.
+We can't yet go to this utopia, but we can:
 
-## Installation
-
-You can install the development version of issuecreep from [GitHub](https://github.com/) with:
-
-``` r
-remotes::install_github("MilesMcBain/issuecreep")
+```r
+remotes::install_github("milesmcbain/issuecreep")
 ```
+
+To get an R <-> GitHub productivity tool powered by Rmarkdown that works in VSCode or RStudio via `{rstudioapi}`.
 
 ## Search Operations
 
@@ -38,6 +39,9 @@ And you'll get Hadley's issues for `{dplyr}`.
 
 `repos` accepts multiple repos.
 
+All of these are built on top of `issues()` which takes various arguments for
+searching and filtering issues and PRs to return to you.
+
 ### Search with text queries
 
 All search operations support `search_query` which is text to search in the title and body of issues to filter search results. You can use this to find issues relating to problems you may be having. e.g.:
@@ -49,9 +53,13 @@ repo_issues(
   )
 ```
 
+### Search Options
+
+- `issue_search_results_per_page` Defines the search results per page. Defaults to 30. Max is 100.
+
 ## Navigation Operations
 
-Probably bind these to keys.
+You want to bind most of these to keys:
 
 - `issue_seach_results_forward()`
   - get the next page of issue search results
@@ -105,7 +113,7 @@ output:
     - `action: update` lets you update the issue title and body. Comments cannot be updated.
   - `labels` can be a single label or yaml list of labels. Only used on 'create' and 'update'.
 
-### Commenting on Issues
+### Commenting on Issues (and PRs)
 
 You can type in the necessary metadata to make a comment in the draft you're given above. But it's much nicer to navigate to the issue thread with `jump_to_issue_thread()` described above. Metadata is automatically set up for to submit a comment on render in this case.
 

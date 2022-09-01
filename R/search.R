@@ -20,6 +20,7 @@ get_gh_email <- function() {
   email$value
 }
 
+#' Get the github user using local git email config.
 #' @export
 get_gh_user <- function() {
   user_email <- get_gh_email()
@@ -153,6 +154,15 @@ issue_query <- function(
     cache_result()
 }
 
+return_search_result <- function(result) {
+  if (length(result$issues) > 0) {
+    display_issue_search_results(result)
+  } else {
+    message("No issue search results.")
+  }
+}
+
+#' @describeIn issues issues for the local repository 
 #' @export
 repo_issues <- function(
   repos = get_repo_remote(),
@@ -174,6 +184,7 @@ repo_issues <- function(
 }
 
 
+#' @describeIn issues PRs for the local repository
 #' @export
 repo_prs <- function(
   repos = get_repo_remote(),
@@ -188,6 +199,7 @@ repo_prs <- function(
   )
 }
 
+#' @describeIn issues issues authored by you
 #' @export
 my_issues <- function(
   author = get_gh_user(),
@@ -201,6 +213,7 @@ my_issues <- function(
   )
 }
 
+#' @describeIn issues issues referring to you
 #' @export
 issues_with_me <- function(
   involves = get_gh_user(),
@@ -214,14 +227,8 @@ issues_with_me <- function(
   )
 }
 
-return_search_result <- function(result) {
-  if (length(result$issues) > 0) {
-    display_issue_search_results(result)
-  } else {
-    message("No issue search results.")
-  }
-}
 
+#' @describeIn issues PRs by you
 #' @export
 my_prs <- function(
   author = get_gh_user(),
@@ -237,6 +244,7 @@ my_prs <- function(
   )
 }
 
+#' @describeIn issues PRs referring to you
 #' @export
 prs_with_me <- function(
   involves = get_gh_user(),
@@ -252,6 +260,7 @@ prs_with_me <- function(
   )
 }
 
+#' @describeIn issues PRs in repositories you own
 #' @export
 prs_for_me <- function(
   user = get_gh_user(),
@@ -268,6 +277,7 @@ prs_for_me <- function(
   )
 } 
 
+#' @describeIn issues issues in repositories you own
 #' @export
 issues_for_me <- function (
   user = get_gh_user(),
@@ -284,6 +294,7 @@ issues_for_me <- function (
   )
 } 
 
+#' @describeIn issues all issues and PRs in repositories you own.
 #' @export
 gh_for_me <- function (
   user = get_gh_user(),
@@ -300,7 +311,34 @@ gh_for_me <- function (
   )
 } 
 
-
+#' Search Issues and PRs and present results in Rmarkdown
+#' 
+#' `issues()` and its user-friendly wrappers are designed to allow you quick
+#' access to lists of issues and PRs that you can use as a jumping off point for
+#' exploring Rmarkdown issue threads. 
+#' 
+#' Results are paged according to `getOption('issue_search_results_per_page')`.
+#' 
+#' Navigate between pages with [issue_search_results_forward()] and [issue_search_results_backward()].
+#' 
+#' Previw an issue thread inline with search results with [issue_search_results_expand()].
+#'
+#' Use [jump_to_issue_thread()] to jump to an Rmarkdown thread based on the
+#' cursor position or [jump_to_issue_webpage()] to jump to the web.
+#' 
+#' @param repos a character vector issue repositories to get issues from. "owner/repo"
+#'   and "repo" are allowed, with the repo resolved against
+#'   installed R packages and CRAN in the latter case.
+#' @param search_query a character string to search for in issue titles and bodies.
+#' @param type `"issue"` or `"pr"` or NULL for both kinds.
+#' @param search_in where to apply `search query`. Any combination of `"title"` or `"body"`. The default is `c("title", "body")` for both.
+#' @param author a character vector of issue authors to return issues by.
+#' @param involves a character vector of users to find in issue/PR threads, filtering returned results.
+#' @param is_open TRUE for open issues, FALSE for closed, NULL for both.
+#' @param label a character vector of issue labels to filter reutrned results.
+#' @param query_description describe this query (appears in Rmarkdown results). Useful for building higher level functionality.
+#' @param order `"asc"` or `"desc"` - the ordering of search results by last update date.
+#' @param extra_params a character vector of extra query parameters that are passed verbatim to the github API. This take the form `"key:value"` e.g. `org:reditorsupport`.
 #' @export
 issues <- function(
   repos = NULL,
