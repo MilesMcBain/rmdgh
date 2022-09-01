@@ -1,4 +1,27 @@
-
+#' A github issue Rmarkdown format
+#' 
+#' A wraper for [rmarkdown::github_document()] that can peform actions on GitHub
+#' when rendering relating to issues and PRs including:
+#'   - create an issue
+#'   - update an issue title, body, and labels
+#'   - comment on an issue
+#'   - close an issue with a comment
+#' @param repo the repository create the issue on e.g. "milesmcbain/capsule"
+#' @param number the issue number in the repository if performing a comment or update action
+#' @param labels the labels to set for the issue if performing create or update action
+#' @param action the type of action to perform: "create", "update", "comment". Only "comment" is valid for PRs.
+#' @param draft if TRUE the action is not performed after rendering the document to
+#'  GitHub markdown - set to TRUE initially to give you a chance to preview
+#'  markdown output.
+#' @param close_with_comment if TRUE close the issue thread with comment action (assuming you have appropriate repo permissions).
+#' @param fig_width passed to image dimension passed to [rmarkdown::github_document()]
+#' @param fig_height image dimension passed to image dimension passed to [rmarkdown::github_document()]
+#' @param dev graphics device argument passed to [rmarkdown::github_document()]
+#' @param df_print data.frame print method passed to [rmarkdown::github_document()]
+#' @param math_method latex style math expression rendering method passed [rmarkdown::github_document()]
+#' @param wrap argument passed to pandoc. Controls use of line breaks. One of
+#' "auto", "preserve" or "none". "preserve" will mostly not interfere with your
+#' text formatting.
 #' @export
 github_issue <- function(
   repo,

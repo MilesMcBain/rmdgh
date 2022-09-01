@@ -6,7 +6,7 @@
 \alias{issuecreep-package}
 \title{issuecreep: R to GitHub Rmarkdown productivity}
 \description{
-What the package does (one paragraph).
+Browse and interact with GitHub via an Rmarkdown document interface.
 }
 \author{
 \strong{Maintainer}: Miles McBain \email{miles.mcbain@gmail.com} (\href{https://orcid.org/0000-0003-2865-2548}{ORCID})

@@ -163,6 +163,7 @@ return_search_result <- function(result) {
 }
 
 #' @describeIn issues issues for the local repository 
+#' @param ... arguments passed to [issues()]
 #' @export
 repo_issues <- function(
   repos = get_repo_remote(),
@@ -185,6 +186,7 @@ repo_issues <- function(
 
 
 #' @describeIn issues PRs for the local repository
+#' @param ... arguments passed to [issues()]
 #' @export
 repo_prs <- function(
   repos = get_repo_remote(),
@@ -200,6 +202,7 @@ repo_prs <- function(
 }
 
 #' @describeIn issues issues authored by you
+#' @param ... arguments passed to [issues()]
 #' @export
 my_issues <- function(
   author = get_gh_user(),
@@ -214,6 +217,7 @@ my_issues <- function(
 }
 
 #' @describeIn issues issues referring to you
+#' @param ... arguments passed to [issues()]
 #' @export
 issues_with_me <- function(
   involves = get_gh_user(),
@@ -229,6 +233,7 @@ issues_with_me <- function(
 
 
 #' @describeIn issues PRs by you
+#' @param ... arguments passed to [issues()]
 #' @export
 my_prs <- function(
   author = get_gh_user(),
@@ -245,6 +250,7 @@ my_prs <- function(
 }
 
 #' @describeIn issues PRs referring to you
+#' @param ... arguments passed to [issues()]
 #' @export
 prs_with_me <- function(
   involves = get_gh_user(),
@@ -261,6 +267,8 @@ prs_with_me <- function(
 }
 
 #' @describeIn issues PRs in repositories you own
+#' @param user the user to return issues or PRs for
+#' @param ... arguments passed to [issues()]
 #' @export
 prs_for_me <- function(
   user = get_gh_user(),
@@ -278,6 +286,8 @@ prs_for_me <- function(
 } 
 
 #' @describeIn issues issues in repositories you own
+#' @param user the user to return issues or PRs for
+#' @param ... arguments passed to [issues()]
 #' @export
 issues_for_me <- function (
   user = get_gh_user(),
@@ -295,6 +305,8 @@ issues_for_me <- function (
 } 
 
 #' @describeIn issues all issues and PRs in repositories you own.
+#' @param user the user to return issues or PRs for
+#' @param ... arguments passed to [issues()]
 #' @export
 gh_for_me <- function (
   user = get_gh_user(),

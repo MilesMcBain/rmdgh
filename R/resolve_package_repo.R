@@ -91,9 +91,9 @@ resolve_package_from_CRAN <- function(package) {
 
   package_data <-
     CRAN_tables[[1]] %>%
-    setNames(c("field", "value")) %>%
+    stats::setNames(c("field", "value")) %>%
     tidyr::pivot_wider(names_from = field, values_from = value) %>%
-    setNames(., gsub(":", "", colnames(.)))
+    stats::setNames(., gsub(":", "", colnames(.)))
 
   resolve_from_package_data(package_data)
 }

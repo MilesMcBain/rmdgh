@@ -97,11 +97,15 @@ installed R packages and CRAN in the latter case.}
 
 \item{query_description}{describe this query (appears in Rmarkdown results). Useful for building higher level functionality.}
 
+\item{...}{arguments passed to \code{\link[=issues]{issues()}}}
+
 \item{author}{a character vector of issue authors to return issues by.}
 
 \item{involves}{a character vector of users to find in issue/PR threads, filtering returned results.}
 
 \item{type}{\code{"issue"} or \code{"pr"} or NULL for both kinds.}
+
+\item{user}{the user to return issues or PRs for}
 
 \item{extra_params}{a character vector of extra query parameters that are passed verbatim to the github API. This take the form \code{"key:value"} e.g. \code{org:reditorsupport}.}
 

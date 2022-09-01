@@ -1,10 +1,10 @@
 Package: issuecreep
 Title: R to GitHub Rmarkdown productivity
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person("Miles", "McBain", , "miles.mcbain@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2865-2548"))
-Description: What the package does (one paragraph).
+Description: Browse and interact with GitHub via an Rmarkdown document interface.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -13,11 +13,30 @@ Imports:
     assertthat,
     fs,
     gert,
-    magrittr,
     reprex,
     rmarkdown,
     xfun,
-    yaml
-Suggests: 
+    yaml,
+    backports,
+    magrittr,
+    atcursor,
+    clipr,
+    curl,
+    gh,
+    glue,
+    jsonlite,
+    knitr,
+    lubridate,
+    prettyunits,
+    rstudioapi,
+    rvest,
+    snakecase,
+    tidyr,
+    uuid,
+    withr,
+    utils,
+    stats,
+    testthat
+Suggest: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

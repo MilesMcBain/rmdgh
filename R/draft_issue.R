@@ -1,5 +1,16 @@
+#' Create a GitHub issue from Rmarkdown
+#'
+#' An Rmarkdown document is created an opened that can add or comment on
+#' issues/PRs when rendered.
+#'  
+#' By default issues are created in a temporary dir, but this can be overidden
+#' and they will be created in the current directory.
+#' 
+#' @param filename the Rmarkdown file name to contain your issue
+#' @param tempdir use a temporary directory if TRUE, current working directory if FALSE
+#' @param overwrite whether or not to overwrite an existing issue with the same filename (defaults to TRUE).
 #' @export
-draft_issue <- function(filename = "issue.Rmd", tempdir = TRUE, overwrite = TRUE) {
+draft_issue <- function(filename = "issue.Rmd", tempdir = getOption("draft_issue_in_tempdir", TRUE), overwrite = TRUE) {
   file_path <- if (tempdir) {
     file.path(get_pkg_user_dir(), filename)
   } else {
