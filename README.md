@@ -66,6 +66,15 @@ Probably bind these to keys.
 - `refresh_issue_thread()`
   - refresh the issue thread referred to by the current Rmd.
 
+There is also `gh_thread()` to open issue threads as Rmarkdown documents, which is designed for console use. E.g.
+
+```r
+gh_thread("capsule#12") 
+gh_thread("milesmcbain/capusle#12")
+gh_thread() # read url from the clipboard
+gh_thread(1) # issue 1 in the current repo
+```
+
 ## GitHub issue thread RMarkdown output
 
 We have an Rmarkdown output format called `github_issue` that can be used to submit issues, issue updates, and issue comments to GitHub on document render.
