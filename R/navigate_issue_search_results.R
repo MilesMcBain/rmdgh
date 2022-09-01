@@ -68,7 +68,7 @@ jump_to_issue_thread <- function() {
 
 #' @export
 refresh_issue_thread <- function() {
-  document_context <- rstudioapi::getActiveDocumentContext()
+  document_context <- rstudioapi::getSourceEditorContext()
   assert_is_rmd(document_context)
   issue_yaml <- rmarkdown::yaml_front_matter(document_context$path)
   assert_github_issue(issue_yaml)
@@ -154,7 +154,7 @@ forward_match_hashref <- function(content, position) {
 }
 
 get_issue_from_cursor_context <- function() {
-  document_context <- rstudioapi::getActiveDocumentContext()
+  document_context <- rstudioapi::getSourceEditorContext()
 
   reference <- match_issue_reference(document_context)
 

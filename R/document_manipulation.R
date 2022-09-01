@@ -1,5 +1,5 @@
 insert_text_below_cursor_line <- function(text) {
-  cursor_selection <- rstudioapi::primary_selection(rstudioapi::getActiveDocumentContext())
+  cursor_selection <- rstudioapi::primary_selection(rstudioapi::getSourceEditorContext())
 
   cursor_position <- cursor_selection$range$start
   
@@ -8,4 +8,4 @@ insert_text_below_cursor_line <- function(text) {
     text = paste0("\n", text, "\n")
   )
 }
-  
+
