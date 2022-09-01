@@ -57,7 +57,6 @@ issue_search_results_expand <- function() {
     insert_text_below_cursor_line()
 }
 
-issue_search_results_collapse <- function() {}
 
 #' @export
 jump_to_issue_thread <- function() {

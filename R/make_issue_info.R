@@ -19,7 +19,7 @@ make_issue_info.shortcode <- function(shortcode, ...) {
 
   api_url <- switch(
     service,
-    gh = glue::glue("https://api.github.com/repos/{repo}/issues/{issue_number}"),
+    gh = gh_api_url(repo, issue_number),
     stop("unknown shortcode service: ", service)
   )
 
@@ -46,9 +46,8 @@ make_issue_info.hashref <- function(hashref, document_context) {
   
   assert_github_exists(repo, issue = issue_number)
   
-  api_url <- glue::glue(
-    "https://api.github.com/repos/{repo}/issues/{issue_number}"
-  )
+  api_url <-
+    gh_api_url(repo, issue_number)
 
   structure(
     list(

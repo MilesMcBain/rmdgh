@@ -1,13 +1,3 @@
-#' .. content for \description{} (no empty lines) ..
-#'
-#' .. content for \details{} ..
-#'
-#' @title
-#' @param document_context
-#' @param issue_info
-#' @return
-#' @author Miles McBain
-#' @export
 get_maybe_cached_issue <- function(document_context, issue_info) {
 
   doc_yaml <- rmarkdown::yaml_front_matter(document_context$path)

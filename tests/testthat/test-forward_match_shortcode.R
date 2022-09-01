@@ -12,12 +12,18 @@ test_that("forward match shortcode and hashref", {
 
   expect_equal(
     forward_match_shortcode(two_match, 2),
-    "`gh milesmcbain/datapasta#33`"
+    structure(
+      "`gh milesmcbain/datapasta#33`",
+      class = "shortcode"
+    )
   )
 
   expect_equal(
     forward_match_shortcode(two_match, 40),
-    "`gh milesmcbain/atcursor#1`"
+    structure(
+    "`gh milesmcbain/atcursor#1`",
+    class = "shortcode"
+    )
   )
   
   expect_null(
@@ -26,14 +32,30 @@ test_that("forward match shortcode and hashref", {
 
   expect_equal(
     forward_match_shortcode(match, 11),
-    "`gh milesmcbain/datapasta#33`"
+    structure(
+    "`gh milesmcbain/datapasta#33`",
+    class = "shortcode"
+    )
   )
 
   numbers <- "- Need to look at faceting section `gh hadley/r4ds#1035` whole game :soccer:"
 
   expect_equal(
     forward_match_shortcode(numbers, 10),
-    "`gh hadley/r4ds#1035`"
+    structure(
+    "`gh hadley/r4ds#1035`",
+    class = "shortcode"
+    )
+  )
+
+  hash_line <- "this is a line #33"
+
+  expect_equal(
+    forward_match_hashref(hash_line, 5),
+    structure(
+      "#33",
+      class = "hashref"
+    )
   )
 
 })
