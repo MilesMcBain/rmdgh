@@ -23,6 +23,7 @@ issue_search_results_forward <- function() {
     update_cached_result(key = issue_search_results$cache_key) %>%
     display_issue_search_results()
 
+  invisible(NULL)
 }
 
 #' @export
@@ -48,6 +49,8 @@ issue_search_results_backward <- function() {
   ) %>%
     update_cached_result(key = issue_search_results$cache_key) %>%
     display_issue_search_results()
+
+  invisible(NULL)
 }
 
 #' @export
@@ -55,6 +58,7 @@ issue_search_results_expand <- function() {
   matching_issue <- get_issue_from_cursor_context()
   render_issue_body(matching_issue) %>%
     insert_text_below_cursor_line()
+  invisible(NULL)
 }
 
 
@@ -64,6 +68,7 @@ jump_to_issue_thread <- function() {
   issue_thread <- get_issue_thread(matching_issue)
 
   display_issue_thread(issue_thread)
+  invisible(NULL)
 }
 
 #' @export
@@ -91,6 +96,8 @@ refresh_issue_thread <- function() {
 jump_to_issue_webpage <- function() {
   issue <- get_issue_from_cursor_context()
   utils::browseURL(issue$html_url)
+
+  invisible(NULL)
 }
 
 match_issue_reference <- function(document_context) {
