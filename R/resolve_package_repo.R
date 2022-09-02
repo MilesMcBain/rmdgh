@@ -1,7 +1,7 @@
 resolve_repo <- function(repo, check_github_exists = TRUE) {
   if (is_qualified_repo_name(repo)) {
     # e.g. tidyverse/dplyr
-    if (check_github) assert_github_exists(repo = repo)
+    if (check_github_exists) assert_github_exists(repo = repo)
     repo
     # if it's not a qualified name, try to resolve it as an R package name
   } else if (is_r_package_installed_locally(repo)) {
