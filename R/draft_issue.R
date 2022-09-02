@@ -35,7 +35,7 @@ draft_issue <- function(filename = "issue.Rmd", tempdir = getOption("draft_issue
   }
 
   rstudioapi::navigateToFile(file_path)
-
+  invisible(NULL)
 }
 
 

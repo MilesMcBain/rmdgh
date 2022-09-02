@@ -34,4 +34,5 @@ gh_thread <- function(thread = NULL) {
   issue_thread <- get_issue_thread(issue)
 
   display_issue_thread(issue_thread)
+  invisible(NULL)
 }
