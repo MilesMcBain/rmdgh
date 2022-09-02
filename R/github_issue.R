@@ -6,7 +6,9 @@
 #'   - update an issue title, body, and labels
 #'   - comment on an issue
 #'   - close an issue with a comment
-#' @param repo the repository create the issue on e.g. "milesmcbain/capsule"
+#' @param repo the repository create the issue on e.g. "milesmcbain/capsule", or
+#'  "capsule". Name will be resolved against locally insalled packages and CRAN in
+#'  the later case.
 #' @param number the issue number in the repository if performing a comment or update action
 #' @param labels the labels to set for the issue if performing create or update action
 #' @param action the type of action to perform: "create", "update", "comment". Only "comment" is valid for PRs.
@@ -24,7 +26,7 @@
 #' text formatting.
 #' @export
 github_issue <- function(
-  repo,
+  repo = NULL,
   number = NULL,
   labels = NULL,
   action = "create", # create | update | comment
@@ -37,10 +39,13 @@ github_issue <- function(
   math_method = "default",
   wrap = "preserve" # auto | none | preserve
 ) {
-
+  if(is.null(repo)) {
+    stop("'repo' option must be supplied")
+  }
   if (!is.null(number) && !is.numeric(number)) {
     stop("unrecognisable issue number: ", number)
   }
+  repo <- resolve_repo(repo, check_github_exists = FALSE)
   assert_github_exists(repo = repo, issue = number)
   if (is.null(number) && close_with_comment) {
     stop("Can't create a closed issue ('close_with_comment: yes' for new issue.)")

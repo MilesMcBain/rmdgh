@@ -5,7 +5,7 @@
 \title{A github issue Rmarkdown format}
 \usage{
 github_issue(
-  repo,
+  repo = NULL,
   number = NULL,
   labels = NULL,
   action = "create",
@@ -20,7 +20,9 @@ github_issue(
 )
 }
 \arguments{
-\item{repo}{the repository create the issue on e.g. "milesmcbain/capsule"}
+\item{repo}{the repository create the issue on e.g. "milesmcbain/capsule", or
+"capsule". Name will be resolved against locally insalled packages and CRAN in
+the later case.}
 
 \item{number}{the issue number in the repository if performing a comment or update action}
 
