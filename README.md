@@ -110,7 +110,7 @@ output:
 
   - `action` is one of 'create', 'update', 'comment'
     - `number` is only valid with 'update' or 'comment'
-    - `action: update` lets you update the issue title and body. Comments cannot be updated.
+    - `action: update` lets you update the issue title, body, and labels. Comments cannot be updated.
   - `labels` can be a single label or yaml list of labels. Only used on 'create' and 'update'.
 
 ### Commenting on Issues (and PRs)
