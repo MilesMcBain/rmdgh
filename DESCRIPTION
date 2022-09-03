@@ -19,7 +19,7 @@ Imports:
     yaml,
     backports,
     magrittr,
-    atcursor,
+    atcursor (>= 0.0.2),
     clipr,
     curl,
     gh,
