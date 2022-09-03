@@ -11,7 +11,9 @@ repository?
 We can't yet go to this utopia, but we can:
 
 ```r
-remotes::install_github("milesmcbain/rmdgh")
+install.packages(
+   "rmdgh", 
+   repos = c(mm = "https://milesmcbain.r-universe.dev", getOption("repos")))
 ```
 
 To get an R <-> GitHub productivity tool powered by Rmarkdown that works in VSCode or RStudio via `{rstudioapi}`.
