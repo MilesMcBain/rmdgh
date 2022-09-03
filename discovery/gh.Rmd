@@ -100,12 +100,12 @@ search_results look like this:
   "incomplete_results": false,
   "items": [
     {
-      "url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13",
-      "repository_url": "https://api.github.com/repos/MilesMcBain/issuecreep",
-      "labels_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13/labels{/name}",
-      "comments_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13/comments",
-      "events_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13/events",
-      "html_url": "https://github.com/MilesMcBain/issuecreep/issues/13",
+      "url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/13",
+      "repository_url": "https://api.github.com/repos/MilesMcBain/rmdgh",
+      "labels_url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/13/labels{/name}",
+      "comments_url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/13/comments",
+      "events_url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/13/events",
+      "html_url": "https://github.com/MilesMcBain/rmdgh/issues/13",
       "id": 1346311357,
       "node_id": "I_kwDOHZOUYc5QPxS9",
       "number": 13,
@@ -144,7 +144,7 @@ search_results look like this:
       "active_lock_reason": {},
       "body": "\nIt would be cool to have the jump and expand navigation options work for regular\nissue references. eg: `#123`. In this case the repo context would have to be\nretrieved from the yaml. Not too hard to do.",
       "reactions": {
-        "url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13/reactions",
+        "url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/13/reactions",
         "total_count": 0,
         "+1": 0,
         "-1": 0,
@@ -155,7 +155,7 @@ search_results look like this:
         "rocket": 0,
         "eyes": 0
       },
-      "timeline_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/13/timeline",
+      "timeline_url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/13/timeline",
       "performed_via_github_app": {},
       "state_reason": {},
       "score": 1
@@ -166,12 +166,12 @@ an isssue lookes like this:
 
 ```
 {
-  "url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11",
-  "repository_url": "https://api.github.com/repos/MilesMcBain/issuecreep",
-  "labels_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11/labels{/name}",
-  "comments_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11/comments",
-  "events_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11/events",
-  "html_url": "https://github.com/MilesMcBain/issuecreep/issues/11",
+  "url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/11",
+  "repository_url": "https://api.github.com/repos/MilesMcBain/rmdgh",
+  "labels_url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/11/labels{/name}",
+  "comments_url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/11/comments",
+  "events_url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/11/events",
+  "html_url": "https://github.com/MilesMcBain/rmdgh/issues/11",
   "id": 1345457004,
   "node_id": "I_kwDOHZOUYc5QMgts",
   "number": 11,
@@ -211,7 +211,7 @@ an isssue lookes like this:
   "body": {},
   "closed_by": {},
   "reactions": {
-    "url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11/reactions",
+    "url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/11/reactions",
     "total_count": 0,
     "+1": 0,
     "-1": 0,
@@ -222,7 +222,7 @@ an isssue lookes like this:
     "rocket": 0,
     "eyes": 0
   },
-  "timeline_url": "https://api.github.com/repos/MilesMcBain/issuecreep/issues/11/timeline",
+  "timeline_url": "https://api.github.com/repos/MilesMcBain/rmdgh/issues/11/timeline",
   "performed_via_github_app": {},
   "state_reason": {}
 } 

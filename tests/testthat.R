@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(issuecreep)
+library(rmdgh)
 
-test_check("issuecreep")
+test_check("rmdgh")

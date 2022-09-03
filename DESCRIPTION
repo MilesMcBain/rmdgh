@@ -1,6 +1,6 @@
-Package: issuecreep
-Title: R to GitHub Rmarkdown productivity
-Version: 0.1.2
+Package: rmdgh
+Title: R to GitHub productivity via Rmarkdown
+Version: 0.2.0
 Authors@R: 
     person("Miles", "McBain", , "miles.mcbain@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2865-2548"))

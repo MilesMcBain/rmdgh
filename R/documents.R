@@ -22,7 +22,7 @@ clean_up_temp_doucments <- function() {
 }
 
 get_pkg_user_dir <- function() {
-  pkg_user_dir <- tools::R_user_dir("issuecreep")
+  pkg_user_dir <- tools::R_user_dir("rmdgh")
   if (!dir.exists(pkg_user_dir)) {
     dir.create(pkg_user_dir, recursive = TRUE)
   }

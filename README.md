@@ -1,5 +1,5 @@
 
-# issuecreep
+# rmdgh
 
 What if there exists an alternate timeline where (R)markdown is their HTML? 
 
@@ -11,7 +11,7 @@ repository?
 We can't yet go to this utopia, but we can:
 
 ```r
-remotes::install_github("milesmcbain/issuecreep")
+remotes::install_github("milesmcbain/rmdgh")
 ```
 
 To get an R <-> GitHub productivity tool powered by Rmarkdown that works in VSCode or RStudio via `{rstudioapi}`.
@@ -98,8 +98,8 @@ Config you can use looks something like this:
 title: Example
 author: MilesMcBain
 output:
-  issuecreep::github_issue:
-    repo: MilesMcBain/issuecreep
+  rmdgh::github_issue:
+    repo: MilesMcBain/rmdgh
     number: 8
     labels: ~
     action: comment

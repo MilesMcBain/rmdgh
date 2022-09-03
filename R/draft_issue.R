@@ -24,7 +24,7 @@ draft_issue <- function(filename = "issue.Rmd", tempdir = getOption("draft_issue
   rmarkdown::draft(
     file = file_path,
     template = "github_issue",
-    package = "issuecreep",
+    package = "rmdgh",
     create_dir = FALSE,
     edit = FALSE
   )
@@ -42,7 +42,7 @@ draft_issue <- function(filename = "issue.Rmd", tempdir = getOption("draft_issue
 swap_repo_yaml <- function(file_path, default_repo) {
   document_yaml <- rmarkdown::yaml_front_matter(file_path)
   yaml_length <- length(strsplit(yaml::as.yaml(document_yaml), "\n")[[1]]) + 2 # + 2 for "---"
-  document_yaml$output$`issuecreep::github_issue`$repo <- default_repo
+  document_yaml$output$`rmdgh::github_issue`$repo <- default_repo
   document_lines <- xfun::read_utf8(file_path)
   new_document_lines <- c(
    paste0( 

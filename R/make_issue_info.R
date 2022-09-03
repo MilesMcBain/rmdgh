@@ -42,7 +42,7 @@ make_issue_info.hashref <- function(hashref, document_context) {
   )
   assert_is_rmd(document_context)
   doc_yaml <- rmarkdown::yaml_front_matter(document_context$path)
-  repo <- doc_yaml$output$`issuecreep::github_issue`$repo %||% get_repo_remote()
+  repo <- doc_yaml$output$`rmdgh::github_issue`$repo %||% get_repo_remote()
   
   assert_github_exists(repo, issue = issue_number)
   

@@ -31,6 +31,6 @@ assert_github_issue <- function(issue_yaml) {
     assertthat::has_name(issue_yaml, "output")
   )
   assertthat::assert_that(
-    assertthat::has_name(issue_yaml$output, "issuecreep::github_issue")
+    assertthat::has_name(issue_yaml$output, "rmdgh::github_issue")
   )
 }

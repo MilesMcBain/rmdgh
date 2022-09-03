@@ -9,7 +9,7 @@ render_issue_thread_front_matter <- function(issue_thread) {
     list(
       title = issue_thread$title,
       author = issue_thread$author,
-      output = list(`issuecreep::github_issue` = list(
+      output = list(`rmdgh::github_issue` = list(
         repo = issue_thread$repo,
         number = issue_thread$number,
         labels = issue_thread$labels,

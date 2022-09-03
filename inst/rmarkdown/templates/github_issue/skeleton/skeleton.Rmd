@@ -1,9 +1,9 @@
 ---
 title: "Your issue title"
-author: "`r issuecreep::get_gh_user()`"
+author: "`r rmdgh::get_gh_user()`"
 output: 
-  issuecreep::github_issue:
-    repo: milesmcbain/issuecreep
+  rmdgh::github_issue:
+    repo: milesmcbain/rmdgh
     labels: ~
     action: create
     draft: yes
@@ -17,6 +17,6 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE, error = TRUE)
 Here is my reprex:
 
 ```{reprex}
-  library(issuecreep)
-  issuecreep:::repo_issues("doesnt/exist")
+  library(rmdgh)
+  rmdgh:::repo_issues("doesnt/exist")
 ```
