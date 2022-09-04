@@ -19,7 +19,8 @@ draft_issue(
 }
 \description{
 An Rmarkdown document is created an opened that can add or comment on
-issues/PRs when rendered.
+issues/PRs when rendered with \code{rmarkdown::render()}, the 'knit' button in
+RStudio, or the 'Knit Rmd' command in VSCode.
 
 By default issues are created in a temporary dir, but this can be overidden
 and they will be created in the current directory.

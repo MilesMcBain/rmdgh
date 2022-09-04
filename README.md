@@ -88,7 +88,7 @@ gh_thread(1) # issue 1 in the current repo
 
 ## GitHub issue thread RMarkdown output
 
-We have an Rmarkdown output format called `github_issue` that can be used to submit issues, issue updates, and issue comments to GitHub on document render.
+We have an Rmarkdown output format called `github_issue` that can be used to submit issues, issue updates, and issue comments to GitHub when the document is rendered with `rmarkdown::render()`, the `knit` button in RStudio, or the `Knit Rmd` command in VSCode.
 
 ### Drafting issues
 
