@@ -37,7 +37,7 @@ github_issue <- function(
   dev = "png",
   df_print = "default",
   math_method = "default",
-  wrap = "preserve" # auto | none | preserve
+  wrap = "auto" # auto | none | preserve
 ) {
   if(is.null(repo)) {
     stop("'repo' option must be supplied")
