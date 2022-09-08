@@ -6,14 +6,16 @@
 \usage{
 draft_issue(
   filename = "issue.Rmd",
-  tempdir = getOption("draft_issue_in_tempdir", TRUE),
+  path = getOption("rmd_gh_issue_draft_path", get_pkg_user_dir()),
   overwrite = TRUE
 )
 }
 \arguments{
 \item{filename}{the Rmarkdown file name to contain your issue}
 
-\item{tempdir}{use a temporary directory if TRUE, current working directory if FALSE}
+\item{path}{the path to create the rmd issue in. Defaults to
+\code{tools::R_user_dir("rmdgh")}. Issues created in the default directory will be
+automatically cleaned up. Default can be changed with option \code{rmd_gh_issue_draft_path}.}
 
 \item{overwrite}{whether or not to overwrite an existing issue with the same filename (defaults to TRUE).}
 }
@@ -21,7 +23,8 @@ draft_issue(
 An Rmarkdown document is created an opened that can add or comment on
 issues/PRs when rendered with \code{rmarkdown::render()}, the 'knit' button in
 RStudio, or the 'Knit Rmd' command in VSCode.
-
+}
+\details{
 By default issues are created in a temporary dir, but this can be overidden
 and they will be created in the current directory.
 }

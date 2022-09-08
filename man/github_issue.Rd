@@ -16,7 +16,7 @@ github_issue(
   dev = "png",
   df_print = "default",
   math_method = "default",
-  wrap = "preserve"
+  wrap = "auto"
 )
 }
 \arguments{
