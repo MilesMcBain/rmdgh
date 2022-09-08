@@ -14,7 +14,7 @@ Imports:
     fs,
     gert,
     reprex,
-    rmarkdown,
+    rmarkdown (>= 2.15),
     xfun,
     yaml,
     backports,
