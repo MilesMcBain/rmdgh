@@ -92,9 +92,9 @@ We have an Rmarkdown output format called `github_issue` that can be used to sub
 
 ### Drafting issues
 
-  - `draft_issue()` Will create a new RMarkdown GitHub issue, defaulting to the current repo. By default issues are created in a temporary directory but this can be set to the current working directory with option `draft_issue_in_tempdir = FALSE`.
-
-Config you can use looks something like this:
+  - `draft_issue()` Will create a new RMarkdown GitHub issue, defaulting to the current repo. By default issues are created in a temporary directory but the path can be changed with option `rmd_gh_issue_draft_path`.
+  
+  Config you can use looks something like this:
 
 ```
 ---
