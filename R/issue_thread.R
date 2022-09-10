@@ -1,7 +1,5 @@
 issue_thread_filename <- function(issue_thread) {
-  snakecase::to_snake_case(
-    glue::glue("{issue_thread$repo}_{issue_thread$number}")
-  )
+    glue::glue("{gsub('/', '_', issue_thread$repo)}_{issue_thread$number}")
 }
 
 render_issue_thread_front_matter <- function(issue_thread) {
