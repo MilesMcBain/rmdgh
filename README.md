@@ -92,7 +92,7 @@ We have an Rmarkdown output format called `github_issue` that can be used to sub
 
 ### Drafting issues
 
-  - `draft_issue()` Will create a new RMarkdown GitHub issue, defaulting to the current repo. By default issues are created in a temporary directory but the path can be changed with option `rmd_gh_issue_draft_path`.
+  - `draft_issue()` Will create a new RMarkdown GitHub issue, defaulting to the current repo. By default issues are created in a temporary directory but the path can be changed with option `rmdgh_issue_draft_path`.
   
   Config you can use looks something like this:
 
@@ -132,7 +132,9 @@ So with the new engine you can make a code chunk that uses `{reprex}` instead of
 `{r}`. The output will be as if you had called `reprex::reprex()` on the code in
 that chunk. Code in these chunks is self-contained, as per regular reprexes.
 
+## Saving Issues
 
+If you'd like to create a workflow where you stash some issues locally to work through checkout `save_issue()` for saving issues in a configurable location - defaulting to `./issues`. The location is configurable in the `rmdgh_issue_location` option.
 
 # FAQ
 
