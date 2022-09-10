@@ -15,7 +15,7 @@
 #' @export
 draft_issue <- function(
   filename = "issue.Rmd",
-  path = getOption("rmd_gh_issue_draft_path", get_pkg_user_dir()),
+  path = getOption("rmdgh_issue_draft_path", get_pkg_user_dir()),
   overwrite = TRUE
 ) {
   file_path <- file.path(path, filename)
