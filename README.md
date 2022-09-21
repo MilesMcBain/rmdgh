@@ -170,3 +170,11 @@ it's not likely to appeal to quarto users from other languages.
 Probably a Quarto version should be implemented as VSCode extension? But then
 the potential user base is much smaller at present. Let's see what Posit does
 with extensions in the stand-alone Quarto editor that must surely be coming.
+
+## Can I have a plot in my issue?
+
+When you add a plot or graphic to an issue in the GitHub text box, you are uploading the graphic file to GitHub. Unfortunately, the GitHub issue API does not currently allow the programmatic addition of files to an issue (see [here](https://github.com/isaacs/github/issues/1133)). 
+
+There may eventually be a workarounds (or proper support from GitHub), but there is currently no support for this from `{rmdgh}`.
+
+Note that the plot files from knitting an `{rmdgh}` issue do get saved locally, so it is possible to create the issue via `{rmdgh}`, and then go to GitHub, and add a comment with the plot from the issue.
