@@ -1,4 +1,8 @@
-# 0.3.1a
+# 0.3.2
+
+  - Breaking change: flipped default for `wrap` in `github_issue` back to `"preserve"`. This works better after all.
+
+# 0.3.1
 
   - Image outputs now use the same strategy as `{reprex}` by default: `knitr::imgur_upload`. Thanks @rmflight.
 
