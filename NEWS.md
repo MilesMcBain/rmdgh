@@ -1,3 +1,7 @@
+# 0.3.1a
+
+  - Image outputs now use the same strategy as `{reprex}` by default: `knitr::imgur_upload`. Thanks @rmflight.
+
 # 0.3.0
 
 - Depend on `{rmarkdown}` >= 2.15, thanks @rmflight

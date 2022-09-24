@@ -16,7 +16,8 @@ github_issue(
   dev = "png",
   df_print = "default",
   math_method = "default",
-  wrap = "auto"
+  wrap = "auto",
+  upload_fun = NULL
 )
 }
 \arguments{
@@ -49,6 +50,11 @@ markdown output.}
 \item{wrap}{argument passed to pandoc. Controls use of line breaks. One of
 "auto", "preserve" or "none". "preserve" will mostly not interfere with your
 text formatting.}
+
+\item{upload_fun}{a function that uploads an image and returns a url.
+Defaults to whatever has been set in \code{knitr::opts_knit$set("upload_fun", )} or
+\code{knitr::imgur_upload()} if no setting has been made. Be aware tha imgur uploads
+are public.}
 }
 \description{
 A wraper for \code{\link[rmarkdown:github_document]{rmarkdown::github_document()}} that can peform actions on GitHub

@@ -56,6 +56,12 @@ github_issue <- function(
   if (action == "create" && !is.null(number)) {
     stop("Supplied an issue number for 'create' action (default). Only applicable for 'update' or 'comment'")
   }
+  upload_fun <- NULL
+  if (draft) {
+    upload_fun <- function(x) x
+  }
+  upload_fun <- upload_fun %||% knitr::opts_chunk$get("upload.fun") %||% knitr::imgur_upload
+  
 
   github_document_format <- rmarkdown::github_document(
     fig_width = fig_width,
@@ -74,7 +80,6 @@ github_issue <- function(
   github_document_format_post_processor <-
     github_document_format$post_processor %||%
     function(metadata, input_file, output_file, ...) output_file
-
 
   # Preprocessor:
   # 1.1 If action is 'comment' Remove everything up to and including the footer line output by
@@ -168,11 +173,11 @@ github_issue <- function(
     }
   }
 
-
+  github_document_format$knitr$opts_knit <-  
+    modifyList(github_document_format$knitr$opts_knit %||% list(), list(upload.fun = upload_fun))
   github_document_format$pre_processor <- pre_processor
   github_document_format$post_processor <- post_processor
   github_document_format$on_exit <- on_exit
-
   github_document_format
 
 }

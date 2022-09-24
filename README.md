@@ -132,6 +132,13 @@ So with the new engine you can make a code chunk that uses `{reprex}` instead of
 `{r}`. The output will be as if you had called `reprex::reprex()` on the code in
 that chunk. Code in these chunks is self-contained, as per regular reprexes.
 
+### Uploading images
+
+By default `github_issue` uses the same strategy as `{reprex}` for images, which is to upload them to Imgur with `knitr::imgur_upload()`. Note these images are public.
+
+Another image service can be used by configuring an alternative function in `knitr::opts_chunk$get(upload.fun =)`. See [Publish images from chunks in the web](https://yihui.org/knitr/demo/upload/).
+
+
 ## Saving Issues
 
 If you'd like to create a workflow where you stash some issues locally to work through checkout `save_issue()` for saving issues in a configurable location - defaulting to `./issues`. The location is configurable in the `rmdgh_issue_location` option.
@@ -150,16 +157,6 @@ reprex needs to also, and there's awkward iterative back and forth involving con
 between applications.
 
 This is exactly the kind of source-output synchronisation and context switching pain that `{knitr}` and `{rmarkdown}` take away. Why wouldn't we draft GitHub issues and comments that mash up code and prose in RMarkdown?!
-
-## Why are you using Rmd instead of Quarto?
-
-I've never used Quarto! I need to walk before I can run with all this document
-generation stuff. Also VSCode support for coding in R in Rmd is better than
-coding in R in Qmd.
-
-And RMarkdown being displaced by Quarto means at some point in the future it's
-going to be all old school and vintage hipster cool. I'm just getting ahead of
-the curve.
 
 ## Will you port this to Quarto at some point?
 
